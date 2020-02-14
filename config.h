@@ -8,4 +8,4 @@ const char* statusTopic  = "events";         // MQTT topic to publish status rep
 uint32_t report_interval = 120;              // Report interval in seconds
 
 /* Mode button connection (momentary between this pin and GND) */
-const int mode_button_pin = D7;              // Pushbutton pin
+const int mode_button_pin = 16;              // Pushbutton pin
