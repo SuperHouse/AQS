@@ -36,6 +36,9 @@ uint16_t g_pm1_ring_buffer[SAMPLE_COUNT];   // Ring buffer for averaging pm1.0 v
 uint16_t g_pm2p5_ring_buffer[SAMPLE_COUNT]; // Ring buffer for averaging pm2.5 values
 uint16_t g_pm10_ring_buffer[SAMPLE_COUNT];  // Ring buffer for averaging pm10.0 values
 uint8_t  g_ring_buffer_index = 0;      // Current position in the ring buffers
+uint32_t pm1_average_value   = 0;      // Average pm1.0 reading from buffer
+uint32_t pm2p5_average_value = 0;      // Average pm2.5 reading from buffer
+uint32_t pm10_average_value  = 0;      // Average pm10.0 reading from buffer
 
 // MQTT
 String g_device_id = "default";        // This is replaced later with a unique value
@@ -179,6 +182,8 @@ void setup()   {
     client.setServer(mqtt_broker, 1883);
     client.setCallback(callback);
   #endif
+
+  tft.fillScreen(TFT_BLACK);
 }
 
 /**
@@ -218,10 +223,18 @@ void loop() {
     // Render our displays
     switch (g_display_state) {
       case STATE_GRAMS:
-        tft.fillScreen(TFT_BLACK);
-        tft.setTextSize(1);
-        tft.setTextColor(TFT_YELLOW, TFT_BLACK);
-        tft.drawNumber(data.PM_AE_UG_1_0, 0, 60, 8);
+        //tft.fillScreen(TFT_BLACK);
+        //tft.setTextSize(1);
+        //tft.setTextColor(TFT_YELLOW, TFT_BLACK);
+        //tft.setCursor(0, 0, 2);
+        //tft.setTextSize(7);
+        //tft.println("PM 1.0:");
+        tft.drawNumber(pm1_average_value, 0, 0, 7);
+        tft.drawNumber(data.PM_AE_UG_1_0, 120, 0, 7);
+        tft.drawNumber(pm2p5_average_value, 0, 60, 7);
+        tft.drawNumber(data.PM_AE_UG_2_5, 120, 60, 7);
+        tft.drawNumber(pm10_average_value, 0, 120, 7);
+        tft.drawNumber(data.PM_AE_UG_10_0, 120, 120, 7);
       /*
         OLED.setTextWrap(false);
         OLED.println("ug/m^3 (Atmos.)");
@@ -273,9 +286,6 @@ void loop() {
     // Generate averages for the samples in the ring buffers
 
     uint8_t i;
-    uint32_t pm1_average_value   = 0;
-    uint32_t pm2p5_average_value = 0;
-    uint32_t pm10_average_value  = 0;
 
     String message_string;
 
