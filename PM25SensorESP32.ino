@@ -16,11 +16,15 @@
 #include "config.h"
 
 /*--------------------------- Libraries ----------------------------------*/
-#include <Adafruit_GFX.h>      // Required for OLED
-#include <Adafruit_SSD1306.h>  // Required for OLED
-#include <ESP8266WiFi.h>       // ESP8266 WiFi driver
-#include "PMS.h"               // Particulate Matter Sensor driver
-#include <PubSubClient.h>      // Required for MQTT
+#include <Adafruit_GFX.h>              // Required for OLED
+//#include <Adafruit_SSD1306.h>          // Required for OLED
+#include <WiFi.h>                      // ESP32 WiFi driver
+#include "PMS.h"                       // Particulate Matter Sensor driver
+#include <PubSubClient.h>              // Required for MQTT
+#include <TFT_eSPI.h>                  // Required for LCD
+
+/* -------------------------- Resources ----------------------------------*/
+#include "superhouselogo.h"            // SuperHouse logo encoded in XBM format
 
 /*--------------------------- Global Variables ---------------------------*/
 // Particulate matter sensor
@@ -61,17 +65,27 @@ uint32_t g_debounce_delay             = 200;
 #define WIFI_CONNECT_INTERVAL 500      // Wait 500ms intervals for wifi connection
 #define WIFI_CONNECT_MAX_ATTEMPTS 10   // Number of attempts/intervals to wait
 
+// General
+uint32_t chipId;
+
+/*--------------------------- Function Signatures ---------------------------*/
+bool initWifi();
+void toggleDisplay();
+void reconnectMqtt();
+
 /*--------------------------- Instantiate Global Objects --------------------*/
 // Particulate matter sensor
-PMS pms(Serial);
+PMS pms(Serial2);
 PMS::DATA data;
 
-// OLED
-Adafruit_SSD1306 OLED(0);  // GPIO0 = OLED reset pin
+// LCD
+TFT_eSPI tft = TFT_eSPI();
 
 // MQTT
-WiFiClient esp_client;
-PubSubClient client(esp_client);
+#if ENABLE_WIFI
+  WiFiClient esp_client;
+  PubSubClient client(esp_client);
+#endif
 
 /*--------------------------- Program ---------------------------------------*/
 /*
@@ -79,7 +93,7 @@ PubSubClient client(esp_client);
    right now for this project because we don't receive commands via MQTT. You
    can modify this function to make the device act on commands that you send it.
 */
-void callback(char* topic, byte* payload, uint8_t length) {
+void callback(char* topic, byte* message, unsigned int length) {
   //Serial.print("Message arrived [");
   //Serial.print(topic);
   //Serial.print("] ");
@@ -93,22 +107,46 @@ void callback(char* topic, byte* payload, uint8_t length) {
    Setup
 */
 void setup()   {
+  Serial.begin(9600);   // GPIO1, GPIO3 (TX/RX pin on ESP-12E Development Board)
+  Serial.println();
+  Serial.println("Air Quality Sensor starting up");
+  Serial2.begin(9600, SERIAL_8N1, 34, 32);
+    
+  uint64_t macAddress = ESP.getEfuseMac();
+  uint64_t macAddressTrunc = macAddress << 40;
+  chipId = macAddressTrunc >> 40;
+  
+  tft.begin();                  // Initialise the display
+  tft.fillScreen(TFT_BLACK);    // Black screen fill
+  tft.drawXBitmap(0, 0, superhouse_logo, logo_width, logo_height, TFT_WHITE);
+  
   // We need a unique device ID for our MQTT client connection
-  g_device_id = String(ESP.getChipId(), HEX);  // Get the unique ID of the ESP8266 chip in hex
-  //Serial.print("Device ID: ");
-  //Serial.println(g_device_id);
+  g_device_id = String(chipId, HEX);  // Get the unique ID of the ESP8266 chip in hex
+  Serial.println();
+  Serial.print("Device ID: ");
+  Serial.println(g_device_id);
 
   // Set up the topics for publishing sensor readings. By inserting the unique ID,
   // the result is of the form: "device/d9616f/pm1" etc
-  sprintf(g_pm1_mqtt_topic,      "device/%x/pm1",     ESP.getChipId());  // From PMS
-  sprintf(g_pm2p5_mqtt_topic,    "device/%x/pm2p5",   ESP.getChipId());  // From PMS
-  sprintf(g_pm10_mqtt_topic,     "device/%x/pm10",    ESP.getChipId());  // From PMS
-  sprintf(g_pm1_raw_mqtt_topic, "device/%x/pm1raw", ESP.getChipId());  // From PMS
-  sprintf(g_pm2p5_raw_mqtt_topic, "device/%x/pm2p5raw", ESP.getChipId());  // From PMS
-  sprintf(g_pm10_raw_mqtt_topic, "device/%x/pm10raw", ESP.getChipId());  // From PMS
-  sprintf(g_command_topic,       "device/%x/command", ESP.getChipId());  // For receiving messages
+  sprintf(g_pm1_mqtt_topic,       "device/%x/pm1",      chipId);  // From PMS
+  sprintf(g_pm2p5_mqtt_topic,     "device/%x/pm2p5",    chipId);  // From PMS
+  sprintf(g_pm10_mqtt_topic,      "device/%x/pm10",     chipId);  // From PMS
+  sprintf(g_pm1_raw_mqtt_topic,   "device/%x/pm1raw",   chipId);  // From PMS
+  sprintf(g_pm2p5_raw_mqtt_topic, "device/%x/pm2p5raw", chipId);  // From PMS
+  sprintf(g_pm10_raw_mqtt_topic,  "device/%x/pm10raw",  chipId);  // From PMS
+  sprintf(g_command_topic,        "device/%x/command",  chipId);  // For receiving messages
+
+  Serial.println("MQTT topics:");
+  Serial.println(g_pm1_mqtt_topic);  // From PMS
+  Serial.println(g_pm2p5_mqtt_topic);  // From PMS
+  Serial.println(g_pm10_mqtt_topic);  // From PMS
+  Serial.println(g_pm1_raw_mqtt_topic);  // From PMS
+  Serial.println(g_pm2p5_raw_mqtt_topic);  // From PMS
+  Serial.println(g_pm10_raw_mqtt_topic);  // From PMS
+  Serial.println(g_command_topic);  // For receiving messages
 
   // Set up display
+  /*
   OLED.begin();
   OLED.clearDisplay();
   OLED.setTextWrap(false);
@@ -118,37 +156,45 @@ void setup()   {
   OLED.println("Booting...");
   OLED.println(g_device_id);
   OLED.display();
+  */
 
   // Connect to WiFi
-  if (initWifi()) {
-    OLED.println("Wifi [CONNECTED]");
-  } else {
-    OLED.println("Wifi [FAILED]");
-  }
-  OLED.display();
-  delay(1000);
-
-  Serial.begin(9600);   // GPIO1, GPIO3 (TX/RX pin on ESP-12E Development Board)
+  #if ENABLE_WIFI
+    if (initWifi()) {
+      //OLED.println("Wifi [CONNECTED]");
+    } else {
+      //OLED.println("Wifi [FAILED]");
+    }
+    //OLED.display();
+    delay(1000);
+  #else
+    //OLED.println("WiFi disabled");
+    Serial.println("WiFi disabled");
+  #endif
 
   pinMode( mode_button_pin , INPUT_PULLUP ); // Pin for switching screens button
 
   /* Set up the MQTT client */
-  client.setServer(mqtt_broker, 1883);
-  client.setCallback(callback);
+  #if ENABLE_WIFI
+    client.setServer(mqtt_broker, 1883);
+    client.setCallback(callback);
+  #endif
 }
 
 /**
    Main loop
 */
 void loop() {
-  if (WiFi.status() == WL_CONNECTED)
-  {
-    if (!client.connected()) {
-      reconnectMqtt();
+  #if ENABLE_WIFI
+    if (WiFi.status() == WL_CONNECTED)
+    {
+      if (!client.connected()) {
+        reconnectMqtt();
+      }
     }
-  }
-  client.loop();  // Process any outstanding MQTT messages
-
+    client.loop();  // Process any outstanding MQTT messages
+  #endif
+  
   toggleDisplay();
 
   if (pms.read(data))
@@ -166,12 +212,17 @@ void loop() {
       g_ring_buffer_index = 0;
     }
 
-    OLED.clearDisplay();
-    OLED.setCursor(0, 0);
+    //OLED.clearDisplay();
+    //OLED.setCursor(0, 0);
 
     // Render our displays
     switch (g_display_state) {
       case STATE_GRAMS:
+        tft.fillScreen(TFT_BLACK);
+        tft.setTextSize(1);
+        tft.setTextColor(TFT_YELLOW, TFT_BLACK);
+        tft.drawNumber(data.PM_AE_UG_1_0, 0, 60, 8);
+      /*
         OLED.setTextWrap(false);
         OLED.println("ug/m^3 (Atmos.)");
         OLED.print("PM 1.0 (ug/m3): ");
@@ -182,11 +233,13 @@ void loop() {
 
         OLED.print("PM 10.0 (ug/m3): ");
         OLED.println(data.PM_AE_UG_10_0);
+        */
         break;
 
       case STATE_INFO:
         char mqtt_client_id[20];
-        sprintf(mqtt_client_id, "esp8266-%x", ESP.getChipId());
+        sprintf(mqtt_client_id, "esp32-%x", chipId);
+        /*
         OLED.setTextWrap(false);
         OLED.println(mqtt_client_id);
         OLED.print("IP: ");
@@ -200,15 +253,16 @@ void loop() {
         } else {
           OLED.println("FAILED");
         }
+        */
         break;
 
       /* Fallback helps with debugging if you call a state that isn't defined */
       default:
-        OLED.println(g_display_state);
+        //OLED.println(g_display_state);
         break;
     }
 
-    OLED.display();
+    //OLED.display();
     delay(0.25);
   }
 
@@ -245,39 +299,57 @@ void loop() {
 
     /* Report PM1 value */
     message_string = String(pm1_average_value);
-    //Serial.println(message_string);
-    message_string.toCharArray(g_mqtt_message_buffer, message_string.length() + 1);
-    client.publish(g_pm1_mqtt_topic, g_mqtt_message_buffer);
+    Serial.print("PM1_AVERAGE:");
+    Serial.println(message_string);
+    #if ENABLE_WIFI
+      message_string.toCharArray(g_mqtt_message_buffer, message_string.length() + 1);
+      client.publish(g_pm1_mqtt_topic, g_mqtt_message_buffer);
+    #endif
 
     /* Report PM2.5 value */
     message_string = String(pm2p5_average_value);
-    //Serial.println(message_string);
-    message_string.toCharArray(g_mqtt_message_buffer, message_string.length() + 1);
-    client.publish(g_pm2p5_mqtt_topic, g_mqtt_message_buffer);
+    Serial.print("PM2P5_AVERAGE:");
+    Serial.println(message_string);
+    #if ENABLE_WIFI
+      message_string.toCharArray(g_mqtt_message_buffer, message_string.length() + 1);
+      client.publish(g_pm2p5_mqtt_topic, g_mqtt_message_buffer);
+    #endif
 
     /* Report PM10 value */
     message_string = String(pm10_average_value);
-    //Serial.println(message_string);
-    message_string.toCharArray(g_mqtt_message_buffer, message_string.length() + 1);
-    client.publish(g_pm10_mqtt_topic, g_mqtt_message_buffer);
+    Serial.print("PM10_AVERAGE:");
+    Serial.println(message_string);
+    #if ENABLE_WIFI
+      message_string.toCharArray(g_mqtt_message_buffer, message_string.length() + 1);
+      client.publish(g_pm10_mqtt_topic, g_mqtt_message_buffer);
+    #endif
 
     /* Report raw PM1 value for comparison with averaged value */
     message_string = String(g_pm1_latest_value);
-    //Serial.println(message_string);
-    message_string.toCharArray(g_mqtt_message_buffer, message_string.length() + 1);
-    client.publish(g_pm1_raw_mqtt_topic, g_mqtt_message_buffer);
+    Serial.print("PM1_LATEST:");
+    Serial.println(message_string);
+    #if ENABLE_WIFI
+      message_string.toCharArray(g_mqtt_message_buffer, message_string.length() + 1);
+      client.publish(g_pm1_raw_mqtt_topic, g_mqtt_message_buffer);
+    #endif
 
     /* Report raw PM2.5 value for comparison with averaged value */
     message_string = String(g_pm2p5_latest_value);
-    //Serial.println(message_string);
-    message_string.toCharArray(g_mqtt_message_buffer, message_string.length() + 1);
-    client.publish(g_pm2p5_raw_mqtt_topic, g_mqtt_message_buffer);
+    Serial.print("PM2P5_LATEST:");
+    Serial.println(message_string);
+    #if ENABLE_WIFI
+      message_string.toCharArray(g_mqtt_message_buffer, message_string.length() + 1);
+      client.publish(g_pm2p5_raw_mqtt_topic, g_mqtt_message_buffer);
+    #endif
 
     /* Report raw PM10 value for comparison with averaged value */
     message_string = String(g_pm10_latest_value);
-    //Serial.println(message_string);
-    message_string.toCharArray(g_mqtt_message_buffer, message_string.length() + 1);
-    client.publish(g_pm10_raw_mqtt_topic, g_mqtt_message_buffer);
+    Serial.print("PM10_LATEST:");
+    Serial.println(message_string);
+    #if ENABLE_WIFI
+      message_string.toCharArray(g_mqtt_message_buffer, message_string.length() + 1);
+      client.publish(g_pm10_raw_mqtt_topic, g_mqtt_message_buffer);
+    #endif
   }
 }
 
@@ -346,9 +418,10 @@ bool initWifi() {
 /**
   Reconnect to MQTT broker, and publish a notification to the status topic
 */
+#if ENABLE_WIFI
 void reconnectMqtt() {
   char mqtt_client_id[20];
-  sprintf(mqtt_client_id, "esp8266-%x", ESP.getChipId());
+  sprintf(mqtt_client_id, "esp32-%x", chipId);
 
   // Loop until we're reconnected
   while (!client.connected()) {
@@ -370,3 +443,4 @@ void reconnectMqtt() {
     }
   }
 }
+#endif
