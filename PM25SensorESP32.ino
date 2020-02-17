@@ -113,7 +113,7 @@ void setup()   {
   Serial.begin(9600);   // GPIO1, GPIO3 (TX/RX pin on ESP-12E Development Board)
   Serial.println();
   Serial.println("Air Quality Sensor starting up");
-  Serial2.begin(9600, SERIAL_8N1, 34, 32);
+  Serial2.begin(9600, SERIAL_8N1, 34, 31);
     
   uint64_t macAddress = ESP.getEfuseMac();
   uint64_t macAddressTrunc = macAddress << 40;
