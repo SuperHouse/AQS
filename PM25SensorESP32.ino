@@ -1,5 +1,5 @@
 /*
-  Particulate Matter Sensor firmware
+  Particulate Matter Sensor firmware (ESP32 version)
 
   Read from a Plantower PMS7003 particulate matter sensor and a BME680
   environmental sensor using an ESP32, and report the values to an MQTT
@@ -8,11 +8,16 @@
   Written by Jonathan Oxer for www.superhouse.tv
    https://github.com/superhouse/PM25SensorESP32
 
+  Dependencies, all available in the Arduino library manager:
+   * "Adafruit GFX Library" by Adafruit
+   * 
+   * "PMS Library" by Mariusz Kacki
+   * "PubSubClient" by Nick O'Leary
   Inspired by https://github.com/SwapBap/WemosDustSensor/blob/master/WemosDustSensor.ino
 */
 
 /*--------------------------- Configuration ------------------------------*/
-// Config values are changed by editing this file:
+// Configuration should be done in the included file:
 #include "config.h"
 
 /*--------------------------- Libraries ----------------------------------*/
@@ -57,6 +62,7 @@ char g_temperature_mqtt_topic[50];     // MQTT topic for reporting temperature
 char g_humidity_mqtt_topic[50];        // MQTT topic for reporting humidity
 char g_pressure_mqtt_topic[50];        // MQTT topic for reporting pressure
 char g_voc_mqtt_topic[50];             // MQTT topic for reporting VOC
+char g_altitude_mqtt_topic[50];        // MQTT topic for reporting altitude
 char g_command_topic[50];              // MQTT topic for receiving commands
 
 // OLED Display
@@ -69,7 +75,7 @@ uint8_t g_display_state = STATE_GRAMS; // Display values in grams by default
 uint8_t  g_current_mode_button_state  = 1;   // Pin is pulled high by default
 uint8_t  g_previous_mode_button_state = 1;
 uint32_t g_last_debounce_time         = 0;
-uint32_t g_debounce_delay             = 200;
+uint32_t g_debounce_delay             = 100;
 
 // Wifi
 #define WIFI_CONNECT_INTERVAL      500 // Wait 500ms intervals for wifi connection
@@ -112,80 +118,65 @@ Adafruit_BME680 bme680;  // Using I2C mode
 Adafruit_NeoPixel strip = Adafruit_NeoPixel(4, WS2812B_PIN, NEO_GRB + NEO_KHZ800);
 
 /*--------------------------- Program ---------------------------------------*/
-/*
-   This callback is invoked when an MQTT message is received. It's not important
-   right now for this project because we don't receive commands via MQTT. You
-   can modify this function to make the device act on commands that you send it.
-*/
-void callback(char* topic, byte* message, unsigned int length) {
-  //Serial.print("Message arrived [");
-  //Serial.print(topic);
-  //Serial.print("] ");
-  //for (int i = 0; i < length; i++) {
-  //  Serial.print((char)payload[i]);
-  //}
-  //Serial.println();
-}
-
 /**
    Setup
 */
 void setup()   {
-  Serial.begin(9600);   // GPIO1, GPIO3 (TX/RX pin on ESP-12E Development Board)
+  Serial.begin(115200);
   Serial.println();
-  Serial.println("Air Quality Sensor starting up");
+  Serial.println("Air Quality Sensor starting up (ESP32 version)");
+
+  // We need a unique device ID for our MQTT client connection
+  uint64_t macAddress = ESP.getEfuseMac();
+  uint64_t macAddressTrunc = macAddress << 40;
+  chipId = macAddressTrunc >> 40;
+
+  Serial.println();
+  Serial.print("Device ID: ");
+  Serial.println(chipId, HEX);
 
   Wire.begin(I2C_SDA_PIN, I2C_SCL_PIN);
 
   strip.begin();                       // Start RGB LEDs
   strip.show();                        // Initialize all LEDs to "off"
-  setColour(strip.Color(12, 0, 0));    // Set all to red
+  setColour(strip.Color(20, 0, 0));    // Set all to red while starting
 
   Serial2.begin(PMS_BAUD_RATE, SERIAL_8N1, PMS_RX_PIN, PMS_TX_PIN);
 
-  uint64_t macAddress = ESP.getEfuseMac();
-  uint64_t macAddressTrunc = macAddress << 40;
-  chipId = macAddressTrunc >> 40;
-
-  tft.begin();                  // Initialise the display
-  tft.fillScreen(TFT_BLACK);    // Black screen fill
+  tft.begin();                         // Initialise the display
+  tft.fillScreen(TFT_BLACK);           // Black screen fill
   tft.drawXBitmap(0, 0, superhouse_logo, logo_width, logo_height, TFT_WHITE);
 
   // Start the environmental sensor
-  if (bme680.begin()) {
+  if (bme680.begin(BME680_I2C_ADDR)) {
     Serial.println("BME680 initialised");
     // Set up oversampling and filter initialization
     bme680.setTemperatureOversampling(BME680_OS_8X);
     bme680.setHumidityOversampling(BME680_OS_2X);
     bme680.setPressureOversampling(BME680_OS_4X);
     bme680.setIIRFilterSize(BME680_FILTER_SIZE_3);
-    bme680.setGasHeater(320, 150); // 320*C for 150 ms
+    bme680.setGasHeater(320, 150);     // 320*C for 150 ms
   } else {
     Serial.println("BME680 not found");
   }
 
-  // We need a unique device ID for our MQTT client connection
-  g_device_id = String(chipId, HEX);  // Get the unique ID of the ESP8266 chip in hex
-  Serial.println();
-  Serial.print("Device ID: ");
-  Serial.println(g_device_id);
-
   // Set up the topics for publishing sensor readings. By inserting the unique ID,
-  // the result is of the form: "device/d9616f/pm1" etc
-  sprintf(g_pm1_mqtt_topic,         "device/%x/pm1",         chipId);  // From PMS
-  sprintf(g_pm2p5_mqtt_topic,       "device/%x/pm2p5",       chipId);  // From PMS
-  sprintf(g_pm10_mqtt_topic,        "device/%x/pm10",        chipId);  // From PMS
-  sprintf(g_pm1_raw_mqtt_topic,     "device/%x/pm1raw",      chipId);  // From PMS
-  sprintf(g_pm2p5_raw_mqtt_topic,   "device/%x/pm2p5raw",    chipId);  // From PMS
-  sprintf(g_pm10_raw_mqtt_topic,    "device/%x/pm10raw",     chipId);  // From PMS
+  // the result is of the form: "tele/d9616f/PM1" etc
+  sprintf(g_pm1_mqtt_topic,         "tele/%x/PM1",         chipId);  // Data from PMS
+  sprintf(g_pm2p5_mqtt_topic,       "tele/%x/PM2P5",       chipId);  // Data from PMS
+  sprintf(g_pm10_mqtt_topic,        "tele/%x/PM10",        chipId);  // Data from PMS
+  sprintf(g_pm1_raw_mqtt_topic,     "tele/%x/PM1RAW",      chipId);  // Data from PMS
+  sprintf(g_pm2p5_raw_mqtt_topic,   "tele/%x/PM2P5RAW",    chipId);  // Data from PMS
+  sprintf(g_pm10_raw_mqtt_topic,    "tele/%x/PM10RAW",     chipId);  // Data from PMS
+  sprintf(g_temperature_mqtt_topic, "tele/%x/temperature", chipId);  // From BME680
+  sprintf(g_humidity_mqtt_topic,    "tele/%x/humidity",    chipId);  // From BME680
+  sprintf(g_pressure_mqtt_topic,    "tele/%x/BARO",        chipId);  // From BME680
+  sprintf(g_voc_mqtt_topic,         "tele/%x/VOC",         chipId);  // From BME680
+  sprintf(g_altitude_mqtt_topic,    "tele/%x/ALT",         chipId);  // From BME680
 
-  sprintf(g_temperature_mqtt_topic, "device/%x/temperature", chipId);  // From BME680
-  sprintf(g_humidity_mqtt_topic,    "device/%x/humidity",    chipId);  // From BME680
-  sprintf(g_pressure_mqtt_topic,    "device/%x/pressure",    chipId);  // From BME680
-  sprintf(g_voc_mqtt_topic,         "device/%x/voc",         chipId);  // From BME680
+  sprintf(g_command_topic,          "cmnd/%x/COMMAND",     chipId);  // For receiving messages
 
-  sprintf(g_command_topic,          "device/%x/command",     chipId);  // For receiving messages
-
+  // Report the MQTT topics to the serial console
   Serial.println("MQTT topics:");
   Serial.println(g_pm1_mqtt_topic);         // From PMS
   Serial.println(g_pm2p5_mqtt_topic);       // From PMS
@@ -198,19 +189,20 @@ void setup()   {
   Serial.println(g_humidity_mqtt_topic);    // From BME680
   Serial.println(g_pressure_mqtt_topic);    // From BME680
   Serial.println(g_voc_mqtt_topic);         // From BME680
+  Serial.println(g_altitude_mqtt_topic);    // From BME680
 
   Serial.println(g_command_topic);          // For receiving messages
 
   // Connect to WiFi
 #if ENABLE_WIFI
   if (initWifi()) {
-    setColour(strip.Color(0, 0, 12));    // Set all to blue
+    setColour(strip.Color(0, 0, 20));    // Set all to blue
     //OLED.println("Wifi [CONNECTED]");
   } else {
     //OLED.println("Wifi [FAILED]");
   }
   //OLED.display();
-  delay(1000);
+  //delay(1000);
 #else
   //OLED.println("WiFi disabled");
   Serial.println("WiFi disabled");
@@ -225,6 +217,7 @@ void setup()   {
 #endif
 
   tft.fillScreen(TFT_BLACK);
+  setColour(strip.Color(0, 12, 0));    // Set all to green
 }
 
 /**
@@ -245,17 +238,167 @@ void loop() {
   updateEnvironmentalReadings();
   updatePmsReadings();
   renderScreen();
+  reportToMqtt();
+}
 
+/**
+  Render the correct screen based on the display state
+*/
+void renderScreen()
+{
+  switch (g_display_state) {
+    case STATE_GRAMS:
+      //tft.fillScreen(TFT_BLACK);
+      //tft.setTextSize(3);
+      tft.setTextColor(TFT_YELLOW, TFT_BLACK);
+      //tft.setCursor(0, 0, 2);
+      tft.setTextSize(1);
+      tft.setTextFont(6);
+      //tft.println("PM 1.0:");
+      tft.drawNumber(g_pm1_latest_value,      0,   0);
+      tft.drawNumber(g_pm1_average_value,   120,   0);
+      tft.drawNumber(g_pm2p5_latest_value,    0,  45);
+      tft.drawNumber(g_pm2p5_average_value, 120,  45);
+      tft.drawNumber(g_pm10_latest_value,     0, 90);
+      tft.drawNumber(g_pm10_average_value,  120, 90);
+      tft.drawNumber(bme680.temperature,      0, 135);
+      tft.drawNumber(bme680.humidity,       120, 135);
+      /*
+        OLED.setTextWrap(false);
+        OLED.println("ug/m^3 (Atmos.)");
+        OLED.print("PM 1.0 (ug/m3): ");
+        OLED.println(data.PM_AE_UG_1_0);
+
+        OLED.print("PM 2.5 (ug/m3): ");
+        OLED.println(data.PM_AE_UG_2_5);
+
+        OLED.print("PM 10.0 (ug/m3): ");
+        OLED.println(data.PM_AE_UG_10_0);
+      */
+      break;
+
+    case STATE_INFO:
+      char mqtt_client_id[20];
+      sprintf(mqtt_client_id, "esp32-%X", chipId);
+      //tft.fillScreen(TFT_BLACK);
+      //tft.print(mqtt_client_id);
+      tft.setCursor(0, 0);
+      tft.setTextSize(1);
+      tft.setTextFont(4);
+      
+      tft.print("IP: ");
+      tft.setTextColor(TFT_YELLOW);
+      tft.println(WiFi.localIP());
+      tft.setTextColor(TFT_WHITE);
+      tft.print("ID: ");
+      tft.setTextColor(TFT_YELLOW);
+      tft.println(mqtt_client_id);
+      tft.setTextColor(TFT_WHITE);
+      tft.print("SSID: ");
+      tft.setTextColor(TFT_YELLOW);
+      tft.println(WiFi.SSID());
+      
+      tft.setTextColor(TFT_WHITE);
+      tft.print("WiFi: ");
+      if (WiFi.status() == WL_CONNECTED)
+      {
+        tft.setTextColor(TFT_GREEN);
+        tft.println("Connected");
+        tft.setTextColor(TFT_WHITE);
+      } else {
+        tft.setTextColor(TFT_RED);
+        tft.println("FAILED");
+        tft.setTextColor(TFT_WHITE);
+      }
+      break;
+
+    /* Fallback helps with debugging if you call a state that isn't defined */
+    default:
+      tft.setCursor(0, 0);
+      tft.setTextSize(1);
+      tft.setTextFont(6);
+      tft.print(g_display_state);
+      break;
+  }
+}
+
+/**
+   Update environmental sensor values
+*/
+void updateEnvironmentalReadings()
+{
   uint32_t time_now = millis();
-  if (time_now - g_last_report_time > (report_interval * 1000))
+  if (time_now - bme680_last_sample_time > BME680_READING_INTERVAL)
+  {
+    bme680.performReading();
+    bme680_last_sample_time = time_now;
+  }
+}
+
+/**
+  Read the display mode button and switch the display mode if necessary
+*/
+void checkModeButton() {
+
+  g_previous_mode_button_state = g_current_mode_button_state;
+  g_current_mode_button_state = digitalRead(MODE_BUTTON_PIN);
+
+  // Check if button is now pressed and it was previously unpressed
+  if (g_current_mode_button_state == LOW && g_previous_mode_button_state == HIGH)
+  {
+    // We haven't waited long enough so ignore this press
+    if (millis() - g_last_debounce_time <= g_debounce_delay) {
+      return;
+    }
+    Serial.println("Button pressed");
+    tft.fillScreen(TFT_BLACK);
+
+    // Increment display state
+    g_last_debounce_time = millis();
+    if (g_display_state >= NUM_OF_STATES) {
+      g_display_state = 1;
+      return;
+    } else {
+      g_display_state++;
+      return;
+    }
+  }
+}
+
+/**
+  Update particulate matter sensor values
+*/
+void updatePmsReadings()
+{
+  if (pms.read(data))
+  {
+    g_pm1_latest_value   = data.PM_AE_UG_1_0;
+    g_pm2p5_latest_value = data.PM_AE_UG_2_5;
+    g_pm10_latest_value  = data.PM_AE_UG_10_0;
+
+    g_pm1_ring_buffer[g_ring_buffer_index]   = g_pm1_latest_value;
+    g_pm2p5_ring_buffer[g_ring_buffer_index] = g_pm2p5_latest_value;
+    g_pm10_ring_buffer[g_ring_buffer_index]  = g_pm10_latest_value;
+    g_ring_buffer_index++;
+    if (g_ring_buffer_index > SAMPLE_COUNT)
+    {
+      g_ring_buffer_index = 0;
+    }
+  }
+}
+
+/**
+  Report the most recent values to MQTT if enough time has passed
+*/
+void reportToMqtt()
+{
+  uint32_t time_now = millis();
+  if (time_now - g_last_report_time > (telemetry_period * 1000))
   {
     g_last_report_time = time_now;
     // Generate averages for the samples in the ring buffers
 
     uint8_t i;
-
-    String message_string;
-
     for (i = 0; i < sizeof(g_pm1_ring_buffer) / sizeof( g_pm1_ring_buffer[0]); i++)
     {
       g_pm1_average_value += g_pm1_ring_buffer[i];
@@ -274,7 +417,9 @@ void loop() {
     }
     g_pm10_average_value = (int)((g_pm10_average_value / SAMPLE_COUNT) + 0.5);
 
-    /* Report PM1 value */
+    String message_string;
+    
+    /* Report averaged PM1 value */
     message_string = String(g_pm1_average_value);
     Serial.print("PM1_AVERAGE:");
     Serial.println(message_string);
@@ -283,7 +428,7 @@ void loop() {
     client.publish(g_pm1_mqtt_topic, g_mqtt_message_buffer);
 #endif
 
-    /* Report PM2.5 value */
+    /* Report averaged PM2.5 value */
     message_string = String(g_pm2p5_average_value);
     Serial.print("PM2P5_AVERAGE:");
     Serial.println(message_string);
@@ -292,7 +437,7 @@ void loop() {
     client.publish(g_pm2p5_mqtt_topic, g_mqtt_message_buffer);
 #endif
 
-    /* Report PM10 value */
+    /* Report averaged PM10 value */
     message_string = String(g_pm10_average_value);
     Serial.print("PM10_AVERAGE:");
     Serial.println(message_string);
@@ -363,138 +508,15 @@ void loop() {
     message_string.toCharArray(g_mqtt_message_buffer, message_string.length() + 1);
     client.publish(g_voc_mqtt_topic, g_mqtt_message_buffer);
 #endif
-  }
-}
 
-/**
-   Render the correct screen based on the display state
-*/
-void renderScreen()
-{
-  switch (g_display_state) {
-    case STATE_GRAMS:
-      //tft.fillScreen(TFT_BLACK);
-      //tft.setTextSize(1);
-      //tft.setTextColor(TFT_YELLOW, TFT_BLACK);
-      //tft.setCursor(0, 0, 2);
-      tft.setTextSize(1);
-      //tft.println("PM 1.0:");
-      tft.drawNumber(g_pm1_average_value, 0, 0, 7);
-      tft.drawNumber(g_pm1_latest_value, 120, 0, 7);
-      tft.drawNumber(g_pm2p5_average_value, 0, 60, 7);
-      tft.drawNumber(g_pm2p5_latest_value, 120, 60, 7);
-      tft.drawNumber(g_pm10_average_value, 0, 120, 7);
-      tft.drawNumber(g_pm10_latest_value, 120, 120, 7);
-      tft.drawNumber(bme680.temperature, 0, 180, 7);
-      tft.drawNumber(bme680.humidity, 120, 180, 7);
-      /*
-        OLED.setTextWrap(false);
-        OLED.println("ug/m^3 (Atmos.)");
-        OLED.print("PM 1.0 (ug/m3): ");
-        OLED.println(data.PM_AE_UG_1_0);
-
-        OLED.print("PM 2.5 (ug/m3): ");
-        OLED.println(data.PM_AE_UG_2_5);
-
-        OLED.print("PM 10.0 (ug/m3): ");
-        OLED.println(data.PM_AE_UG_10_0);
-      */
-      break;
-
-    case STATE_INFO:
-      char mqtt_client_id[20];
-      sprintf(mqtt_client_id, "esp32-%x", chipId);
-      //tft.fillScreen(TFT_BLACK);
-      //tft.print(mqtt_client_id);
-      tft.setTextSize(3);
-      tft.drawString(mqtt_client_id, 10,0);
-      /*
-        OLED.setTextWrap(false);
-        OLED.println(mqtt_client_id);
-        OLED.print("IP: ");
-        OLED.println(WiFi.localIP());
-        OLED.print("SSID: ");
-        OLED.println(ssid);
-        OLED.print("WiFi: ");
-        if (WiFi.status() == WL_CONNECTED)
-        {
-        OLED.println("Connected");
-        } else {
-        OLED.println("FAILED");
-        }
-      */
-      break;
-
-    /* Fallback helps with debugging if you call a state that isn't defined */
-    default:
-      //OLED.println(g_display_state);
-      break;
-  }
-}
-
-/**
-   Update environmental sensor values
-*/
-void updateEnvironmentalReadings()
-{
-  uint32_t time_now = millis();
-  if (time_now - bme680_last_sample_time > BME680_READING_INTERVAL)
-  {
-    bme680.performReading();
-    bme680_last_sample_time = time_now;
-  }
-}
-
-/**
-   Update particulate matter sensor values
-*/
-void updatePmsReadings()
-{
-  if (pms.read(data))
-  {
-    g_pm1_latest_value   = data.PM_AE_UG_1_0;
-    g_pm2p5_latest_value = data.PM_AE_UG_2_5;
-    g_pm10_latest_value  = data.PM_AE_UG_10_0;
-
-    g_pm1_ring_buffer[g_ring_buffer_index]   = g_pm1_latest_value;
-    g_pm2p5_ring_buffer[g_ring_buffer_index] = g_pm2p5_latest_value;
-    g_pm10_ring_buffer[g_ring_buffer_index]  = g_pm10_latest_value;
-    g_ring_buffer_index++;
-    if (g_ring_buffer_index > SAMPLE_COUNT)
-    {
-      g_ring_buffer_index = 0;
-    }
-  }
-}
-
-/**
-  Read the display mode button and switch the display mode if necessary
-*/
-void checkModeButton() {
-
-  g_previous_mode_button_state = g_current_mode_button_state;
-  g_current_mode_button_state = digitalRead(MODE_BUTTON_PIN);
-
-  // Check if button is now pressed and it was previously unpressed
-  if (g_current_mode_button_state == LOW && g_previous_mode_button_state == HIGH)
-  {
-    // We haven't waited long enough so ignore this press
-    if (millis() - g_last_debounce_time <= g_debounce_delay) {
-      return;
-    }
-    Serial.println("Button pressed");
-    tft.fillScreen(TFT_BLACK);
-
-    // Increment display state
-    g_last_debounce_time = millis();
-    if (g_display_state >= NUM_OF_STATES) {
-      g_display_state = 1;
-      return;
-    }
-    else {
-      g_display_state++;
-      return;
-    }
+    /* Report altitude */
+    message_string = String(bme680.readAltitude(SEA_LEVEL_PRESSURE_HPA));
+    Serial.print("ALT:");
+    Serial.println(message_string);
+#if ENABLE_WIFI
+    message_string.toCharArray(g_mqtt_message_buffer, message_string.length() + 1);
+    client.publish(g_altitude_mqtt_topic, g_mqtt_message_buffer);
+#endif
   }
 }
 
@@ -547,7 +569,7 @@ void reconnectMqtt() {
       //Serial.println("connected");
       // Once connected, publish an announcement
       sprintf(g_mqtt_message_buffer, "Device %s starting up", mqtt_client_id);
-      client.publish(statusTopic, g_mqtt_message_buffer);
+      client.publish(status_topic, g_mqtt_message_buffer);
       // Resubscribe
       //client.subscribe(g_command_topic);
     } else {
@@ -561,11 +583,26 @@ void reconnectMqtt() {
 }
 #endif
 
+/*
+  This callback is invoked when an MQTT message is received. It's not important
+  right now for this project because we don't receive commands via MQTT. You
+  can modify this function to make the device act on commands that you send it.
+*/
+void callback(char* topic, byte* message, unsigned int length) {
+  //Serial.print("Message arrived [");
+  //Serial.print(topic);
+  //Serial.print("] ");
+  //for (int i = 0; i < length; i++) {
+  //  Serial.print((char)payload[i]);
+  //}
+  //Serial.println();
+}
+
 /**
    Set all LEDs to the specified colour
 */
 void setColour(uint32_t c) {
-  for (uint16_t i = 0; i < strip.numPixels(); i++) {
+  for (uint8_t i = 0; i < strip.numPixels(); i++) {
     strip.setPixelColor(i, c);
   }
   strip.show();
