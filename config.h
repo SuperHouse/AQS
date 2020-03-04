@@ -4,13 +4,14 @@ const char* ssid     = "YOUR SSID";          // Your WiFi SSID
 const char* password = "YOUR PASSWORD";      // Your WiFi password
 
 /* MQTT setup */
-const char* mqtt_broker  = "192.168.1.111";  // IP address of your MQTT broker
-const char* statusTopic  = "events";         // MQTT topic to publish status reports
-uint32_t report_interval = 120;              // Report interval in seconds
+const char* mqtt_broker   = "192.168.1.111"; // IP address of your MQTT broker
+const char* status_topic  = "events";        // MQTT topic to report startup
+uint32_t telemetry_period = 120;             // Report interval in seconds
 
 /* Use WiFi. If this is off, MQTT won't run */
 #define ENABLE_WIFI       true
 
+#define SEA_LEVEL_PRESSURE_HPA (1013.25)
 
 /* ----------------- Hardware-specific Config ---------------------- */
 /* Mode button connection (momentary between this pin and GND) */
@@ -30,6 +31,7 @@ uint32_t report_interval = 120;              // Report interval in seconds
 /* I2C */
 #define I2C_SDA_PIN       25
 #define I2C_SCL_PIN       26
+#define BME680_I2C_ADDR 0x76
 
 /* Particulate Matter Sensor */
 #define PMS_BAUD_RATE   9600
