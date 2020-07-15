@@ -6,7 +6,7 @@ Copyright 2020 SuperHouse Automation Pty Ltd  www.superhouse.tv
 Combines a PMS7003 particulate matter sensor with a BME680
 temperature / humidity / barometric pressure / VOC sensor.
 
-![PCB render](AQS-v1_0-oblique-render.jpg)
+![Air Quality Sensor PCB](Images/AQS-v1_0-oblique-render.jpg)
 
 More information is available at:
 
