@@ -208,7 +208,7 @@
 <wire x1="0" y1="4" x2="3" y2="1" width="0.0254" layer="20" curve="90"/>
 <text x="35.288" y="22.26" size="1.016" layer="22" font="vector" ratio="12" rot="MR0">(C)2020 SuperHouse
 Automation Pty Ltd</text>
-<text x="40.7" y="44.25" size="1.778" layer="22" font="vector" ratio="18" distance="40" rot="MR0" align="bottom-center">Air Quality Sensor</text>
+<text x="40.7" y="44.25" size="1.778" layer="22" font="vector" ratio="18" distance="40" rot="MR0" align="bottom-center">Air Quality Sensor Pro</text>
 <text x="40.7" y="58.3" size="1.4224" layer="22" font="vector" ratio="18" rot="MR0" align="bottom-center">www.superhouse.tv/aqs</text>
 <hole x="67" y="58" drill="3.2"/>
 <hole x="67" y="4" drill="3.2"/>
@@ -1521,9 +1521,7 @@ These rules have been set to have limits that are safe for most board fabs, whil
 <via x="41" y="17" extent="1-16" drill="0.5"/>
 <wire x1="41" y1="17" x2="37.8" y2="13.8" width="0.254" layer="1"/>
 <wire x1="37.8" y1="13.8" x2="36.2" y2="13.8" width="0.254" layer="1"/>
-<contactref element="IC4" pad="11"/>
 <wire x1="31" y1="41" x2="37.5" y2="34.5" width="0.254" layer="16"/>
-<wire x1="25.3" y1="40.8" x2="25.5" y2="41" width="0.254" layer="16"/>
 <wire x1="25.5" y1="41" x2="31" y2="41" width="0.254" layer="16"/>
 <wire x1="37.5" y1="34.5" x2="37.5" y2="17.5" width="0.254" layer="16"/>
 <wire x1="37.5" y1="17.5" x2="38.5" y2="16.5" width="0.254" layer="16"/>
@@ -1536,6 +1534,8 @@ These rules have been set to have limits that are safe for most board fabs, whil
 <wire x1="42" y1="18" x2="41" y2="17" width="0.254" layer="1"/>
 <wire x1="60.5" y1="15.35341875" x2="57.85341875" y2="18" width="0.254" layer="1"/>
 <wire x1="57.85341875" y1="18" x2="42" y2="18" width="0.254" layer="1"/>
+<contactref element="IC4" pad="36"/>
+<wire x1="25.5" y1="41" x2="7.7" y2="50.96" width="0" layer="19" extent="16-16"/>
 </signal>
 <signal name="SDA">
 <contactref element="IC1" pad="3"/>
@@ -1543,7 +1543,6 @@ These rules have been set to have limits that are safe for most board fabs, whil
 <wire x1="39" y1="18.5" x2="39" y2="16" width="0.254" layer="1"/>
 <wire x1="39" y1="16" x2="37.6" y2="14.6" width="0.254" layer="1"/>
 <wire x1="37.6" y1="14.6" x2="36.2" y2="14.6" width="0.254" layer="1"/>
-<contactref element="IC4" pad="10"/>
 <contactref element="R15" pad="1"/>
 <wire x1="62.738" y1="13" x2="61.5" y2="13" width="0.254" layer="1"/>
 <wire x1="61.5" y1="13" x2="61" y2="13.5" width="0.254" layer="1"/>
@@ -1551,8 +1550,9 @@ These rules have been set to have limits that are safe for most board fabs, whil
 <wire x1="61" y1="15.5" x2="58" y2="18.5" width="0.254" layer="1"/>
 <wire x1="58" y1="18.5" x2="39" y2="18.5" width="0.254" layer="1"/>
 <wire x1="31.43" y1="42.07" x2="39" y2="34.5" width="0.254" layer="16"/>
-<wire x1="25.3" y1="42.07" x2="31.43" y2="42.07" width="0.254" layer="16"/>
 <wire x1="39" y1="34.5" x2="39" y2="18.5" width="0.254" layer="16"/>
+<contactref element="IC4" pad="33"/>
+<wire x1="31.43" y1="42.07" x2="7.7" y2="47.15" width="0" layer="19" extent="16-16"/>
 </signal>
 <signal name="3.3V">
 <contactref element="R1" pad="2"/>
@@ -1729,8 +1729,6 @@ These rules have been set to have limits that are safe for most board fabs, whil
 </signal>
 <signal name="PMS_RX">
 <contactref element="J2" pad="8"/>
-<contactref element="IC4" pad="14"/>
-<wire x1="25.3" y1="36.99" x2="25.3" y2="31.8" width="0.254" layer="16"/>
 <wire x1="25.3" y1="31.8" x2="21.5" y2="28" width="0.254" layer="16"/>
 <wire x1="20" y1="28" x2="19" y2="29" width="0.254" layer="16"/>
 <wire x1="19" y1="29" x2="16" y2="29" width="0.254" layer="16"/>
@@ -1738,15 +1736,23 @@ These rules have been set to have limits that are safe for most board fabs, whil
 <wire x1="15" y1="28" x2="15" y2="27.235" width="0.254" layer="16"/>
 <wire x1="15" y1="27.235" x2="16.165" y2="26.07" width="0.254" layer="16"/>
 <wire x1="21.5" y1="28" x2="20" y2="28" width="0.254" layer="16"/>
+<contactref element="IC4" pad="28"/>
+<wire x1="16.165" y1="26.07" x2="7.7" y2="40.8" width="0" layer="19" extent="16-16"/>
 </signal>
 <signal name="PMS_TX">
 <contactref element="J2" pad="10"/>
 <via x="12" y="41" extent="1-16" drill="0.5"/>
-<contactref element="IC4" pad="28"/>
-<wire x1="7.9" y1="41" x2="7.7" y2="40.8" width="0.254" layer="16"/>
 <wire x1="12" y1="41" x2="7.9" y2="41" width="0.254" layer="16"/>
 <wire x1="16.165" y1="27.34" x2="12" y2="31.505" width="0.254" layer="1"/>
 <wire x1="12" y1="31.505" x2="12" y2="41" width="0.254" layer="1"/>
+<contactref element="IC4" pad="27"/>
+<wire x1="7.7" y1="39.53" x2="13" y2="39.53" width="0.254" layer="16"/>
+<via x="12.5" y="58" extent="1-16" drill="0.5"/>
+<wire x1="13.5" y1="53" x2="12.5" y2="54" width="0.254" layer="16"/>
+<wire x1="12.5" y1="54" x2="12.5" y2="58" width="0.254" layer="16"/>
+<wire x1="13" y1="39.53" x2="13.5" y2="40.03" width="0.254" layer="16"/>
+<wire x1="13.5" y1="40.03" x2="13.5" y2="53" width="0.254" layer="16"/>
+<wire x1="7.9" y1="41" x2="7.7" y2="39.53" width="0" layer="19" extent="16-16"/>
 </signal>
 <signal name="D-">
 <contactref element="Z1" pad="2"/>
@@ -1978,28 +1984,14 @@ These rules have been set to have limits that are safe for most board fabs, whil
 <wire x1="66.73" y1="32.73" x2="65.635" y2="32.73" width="0.254" layer="1"/>
 </signal>
 <signal name="PMS_SET">
-<contactref element="IC4" pad="13"/>
 <contactref element="J2" pad="9"/>
 <wire x1="17.435" y1="27.34" x2="17.435" y2="31.935" width="0.254" layer="1"/>
 <wire x1="17.435" y1="31.935" x2="23.5" y2="38" width="0.254" layer="1"/>
 <wire x1="23.5" y1="38" x2="30" y2="38" width="0.254" layer="1"/>
 <via x="30" y="38" extent="1-16" drill="0.5"/>
 <wire x1="30" y1="38" x2="29.74" y2="38.26" width="0.254" layer="16"/>
-<wire x1="29.74" y1="38.26" x2="25.3" y2="38.26" width="0.254" layer="16"/>
-</signal>
-<signal name="GPIO16">
-<contactref element="IC4" pad="27"/>
-<contactref element="Q2" pad="2"/>
-<contactref element="R4" pad="1"/>
-<wire x1="12.5" y1="56.95" x2="14.312" y2="56.95" width="0.254" layer="1"/>
-<wire x1="14.312" y1="56.95" x2="14.5" y2="56.762" width="0.254" layer="1"/>
-<wire x1="7.7" y1="39.53" x2="13" y2="39.53" width="0.254" layer="16"/>
-<via x="12.5" y="58" extent="1-16" drill="0.5"/>
-<wire x1="13.5" y1="53" x2="12.5" y2="54" width="0.254" layer="16"/>
-<wire x1="12.5" y1="54" x2="12.5" y2="58" width="0.254" layer="16"/>
-<wire x1="12.5" y1="58" x2="12.5" y2="56.95" width="0.254" layer="1"/>
-<wire x1="13" y1="39.53" x2="13.5" y2="40.03" width="0.254" layer="16"/>
-<wire x1="13.5" y1="40.03" x2="13.5" y2="53" width="0.254" layer="16"/>
+<contactref element="IC4" pad="10"/>
+<wire x1="29.74" y1="38.26" x2="25.3" y2="42.07" width="0" layer="19" extent="16-16"/>
 </signal>
 <signal name="N$12">
 <contactref element="LED4" pad="4-DIN"/>
@@ -2035,7 +2027,7 @@ These rules have been set to have limits that are safe for most board fabs, whil
 <wire x1="8.5" y1="55.738" x2="8.5" y2="52.7" width="0.254" layer="1"/>
 <wire x1="8.5" y1="52.7" x2="8.45" y2="52.65" width="0.254" layer="1"/>
 </signal>
-<signal name="GPIO18">
+<signal name="TFT_SCLK">
 <contactref element="LCD" pad="SCK"/>
 <contactref element="IC4" pad="30"/>
 <wire x1="32.46" y1="55.75" x2="32.5" y2="55.71" width="0.254" layer="16"/>
@@ -2053,9 +2045,7 @@ These rules have been set to have limits that are safe for most board fabs, whil
 <wire x1="9.84" y1="43.34" x2="7.7" y2="43.34" width="0.254" layer="16"/>
 </signal>
 <signal name="GPIO23">
-<contactref element="LCD" pad="SDA"/>
 <contactref element="IC4" pad="37"/>
-<wire x1="35" y1="55.75" x2="35" y2="51" width="0.254" layer="16"/>
 <wire x1="35" y1="51" x2="34.5" y2="50.5" width="0.254" layer="16"/>
 <via x="34.5" y="50.5" extent="1-16" drill="0.5"/>
 <wire x1="27.073290625" y1="51.073290625" x2="24.14658125" y2="54" width="0.254" layer="1"/>
@@ -2069,9 +2059,7 @@ These rules have been set to have limits that are safe for most board fabs, whil
 <wire x1="33.926709375" y1="51.073290625" x2="34.5" y2="50.5" width="0.254" layer="1"/>
 </signal>
 <signal name="GPIO4">
-<contactref element="LCD" pad="RES"/>
 <contactref element="IC4" pad="26"/>
-<wire x1="37.54" y1="55.75" x2="37.54" y2="49.54" width="0.254" layer="16"/>
 <wire x1="37.54" y1="49.54" x2="37" y2="49" width="0.254" layer="16"/>
 <via x="37" y="49" extent="1-16" drill="0.5"/>
 <wire x1="37" y1="49" x2="27.5" y2="49" width="0.254" layer="1"/>
@@ -2105,9 +2093,6 @@ These rules have been set to have limits that are safe for most board fabs, whil
 <via x="20" y="52" extent="1-16" drill="0.5"/>
 <wire x1="23.35341875" y1="52.5" x2="20.5" y2="52.5" width="0.254" layer="1"/>
 <wire x1="20.5" y1="52.5" x2="20" y2="52" width="0.254" layer="1"/>
-</signal>
-<signal name="N$4">
-<contactref element="IC4" pad="6"/>
 </signal>
 <signal name="N$13">
 <contactref element="LED5" pad="C"/>
@@ -2160,6 +2145,26 @@ These rules have been set to have limits that are safe for most board fabs, whil
 <wire x1="4.75" y1="22.1" x2="4.75" y2="20.75" width="0.254" layer="1"/>
 <wire x1="4.75" y1="20.75" x2="3.5" y2="19.5" width="0.254" layer="1"/>
 <wire x1="3.5" y1="19.5" x2="3.5" y2="14" width="0.254" layer="1"/>
+</signal>
+<signal name="GPIO13">
+<contactref element="Q2" pad="2"/>
+<contactref element="R4" pad="1"/>
+<wire x1="12.5" y1="56.95" x2="14.312" y2="56.95" width="0.254" layer="1"/>
+<wire x1="14.312" y1="56.95" x2="14.5" y2="56.762" width="0.254" layer="1"/>
+<contactref element="IC4" pad="16"/>
+<wire x1="20.93" y1="35.6" x2="14.5" y2="56.762" width="0" layer="19" extent="1-16"/>
+</signal>
+<signal name="TFT_CIPO">
+<contactref element="IC4" pad="31"/>
+</signal>
+<signal name="TFT_CS">
+<contactref element="IC4" pad="11"/>
+</signal>
+<signal name="TFT_COPI">
+<contactref element="LCD" pad="SDA"/>
+</signal>
+<signal name="TFT_RESET">
+<contactref element="LCD" pad="RES"/>
 </signal>
 </signals>
 <mfgpreviewcolors>

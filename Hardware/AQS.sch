@@ -4393,20 +4393,31 @@ CP2104 USB to serial converter. The CP2104 is not recommended for new designs: r
 <part name="P+3" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="3.3V" device=""/>
 <part name="R8" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="1K"/>
 <part name="R9" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="1K"/>
+<part name="U$9" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
+<part name="U$10" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
+<part name="U$11" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
+<part name="U$12" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
+<part name="U$13" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
+<part name="U$14" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
+<part name="U$16" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
+<part name="U$17" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
+<part name="U$18" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
+<part name="U$19" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
+<part name="U$20" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
 </parts>
 <sheets>
 <sheet>
 <plain>
 <text x="7.62" y="6.858" size="1.778" layer="94">SKU: AQS</text>
-<text x="7.62" y="12.7" size="2.794" layer="94">Air Quality Sensor</text>
-<text x="81.28" y="6.858" size="1.778" layer="94">V2.1 (2020-07-16)</text>
+<text x="7.62" y="12.7" size="2.794" layer="94">Air Quality Sensor Pro</text>
+<text x="81.28" y="6.858" size="1.778" layer="94">V3.0 (2020-07-16)</text>
 <text x="32.766" y="6.858" size="1.778" layer="94">www.superhouse.tv/aqs</text>
 <frame x1="5.08" y1="5.08" x2="109.22" y2="17.78" columns="0" rows="0" layer="94" border-left="no" border-top="no" border-right="no" border-bottom="no"/>
 <frame x1="78.74" y1="5.08" x2="109.22" y2="10.16" columns="8" rows="5" layer="94"/>
 <frame x1="5.08" y1="5.08" x2="30.48" y2="10.16" columns="8" rows="5" layer="94"/>
 <frame x1="0" y1="0" x2="248.92" y2="185.42" columns="8" rows="5" layer="94"/>
-<wire x1="106.68" y1="83.82" x2="106.68" y2="25.4" width="0.4064" layer="97" style="longdash"/>
-<wire x1="45.72" y1="25.4" x2="106.68" y2="25.4" width="0.4064" layer="97" style="longdash"/>
+<wire x1="106.68" y1="83.82" x2="106.68" y2="33.02" width="0.4064" layer="97" style="longdash"/>
+<wire x1="45.72" y1="33.02" x2="106.68" y2="33.02" width="0.4064" layer="97" style="longdash"/>
 <wire x1="241.3" y1="177.8" x2="241.3" y2="129.54" width="0.4064" layer="97" style="longdash"/>
 <wire x1="241.3" y1="127" x2="241.3" y2="88.9" width="0.4064" layer="97" style="longdash"/>
 <wire x1="83.82" y1="177.8" x2="175.26" y2="177.8" width="0.4064" layer="97" style="longdash"/>
@@ -4421,11 +4432,11 @@ CP2104 USB to serial converter. The CP2104 is not recommended for new designs: r
 <wire x1="180.34" y1="127" x2="180.34" y2="88.9" width="0.4064" layer="97" style="longdash"/>
 <wire x1="180.34" y1="88.9" x2="241.3" y2="88.9" width="0.4064" layer="97" style="longdash"/>
 <wire x1="241.3" y1="177.8" x2="180.34" y2="177.8" width="0.4064" layer="97" style="longdash"/>
-<text x="15.24" y="172.72" size="2.54" layer="94">USB-C Connection</text>
-<text x="91.44" y="172.72" size="2.54" layer="94">USB-Serial Converter</text>
+<text x="12.7" y="172.72" size="2.54" layer="94">USB-C Connection</text>
+<text x="88.9" y="172.72" size="2.54" layer="94">USB-Serial Converter</text>
 <text x="185.42" y="172.72" size="2.54" layer="94">Auto Reset</text>
 <text x="50.8" y="78.74" size="2.54" layer="94">3.3V Power Supply</text>
-<wire x1="45.72" y1="83.82" x2="45.72" y2="25.4" width="0.4064" layer="97" style="longdash"/>
+<wire x1="45.72" y1="83.82" x2="45.72" y2="33.02" width="0.4064" layer="97" style="longdash"/>
 <wire x1="106.68" y1="83.82" x2="45.72" y2="83.82" width="0.4064" layer="97" style="longdash"/>
 <text x="116.84" y="78.74" size="2.54" layer="94" ratio="12">Microcontroller</text>
 <wire x1="241.3" y1="83.82" x2="111.76" y2="83.82" width="0.4064" layer="97" style="longdash"/>
@@ -4434,29 +4445,29 @@ CP2104 USB to serial converter. The CP2104 is not recommended for new designs: r
 <wire x1="241.3" y1="7.62" x2="111.76" y2="7.62" width="0.4064" layer="97" style="longdash"/>
 <text x="114.3" y="8.89" size="1.778" layer="97">WARNING: GPIO32/33 are used by RTC. Need to
 modify WROOM32 to use them as outputs</text>
-<text x="7.62" y="68.58" size="1.778" layer="97">Enable INPUT_PULLUP on IO35:
-button is active low</text>
-<text x="7.62" y="20.32" size="1.778" layer="97">GPIO0:  Button
-GPIO2:  TFT_DC
-GPIO4:  TFT_RST
-GPIO12: Tx to PMS7003 Rx
-GPIO14: PMS7003 SET
-GPIO15: TFT_CS
-GPIO16: WS2812B
-GPIO17: Rx from PMS7003 Tx
-GPIO18: TFT_SCLK
-GPIO19: TFT_MISO
-GPIO23: TFT_MOSI
-GPIO25: SDA
-GPIO26: SCL
-GPIO27: PMS7003 RESET
-
-Firmware: https://github.com/openairproject/sensor-esp32</text>
 <text x="7.62" y="76.2" size="1.778" layer="97">I2C Address:
 0x77: BME680</text>
 <wire x1="241.3" y1="127" x2="180.34" y2="127" width="0.4064" layer="97" style="longdash"/>
 <wire x1="241.3" y1="129.54" x2="180.34" y2="129.54" width="0.4064" layer="97" style="longdash"/>
 <text x="185.42" y="121.92" size="2.54" layer="94">ESP-Prog Header</text>
+<text x="7.62" y="22.86" size="1.778" layer="97">GPIO0:  Button (active low)
+GPIO1:  USB_TX
+GPIO2:  TFT_DC
+GPIO3:  USB_RX
+GPIO4:  TFT_RST
+GPIO13: WS2812B
+GPIO16: PMS_TX (RX2 of MCU)
+GPIO17: PMS_RX (TX2 of MCU)
+GPIO18: TFT_SCLK
+GPIO19: TFT_MISO
+GPIO21: SDA
+GPIO22: SCL
+GPIO23: TFT_MOSI
+GPIO25: PMS_SET
+GPIO26: TFT_CS
+GPIO27: PMS_RESET
+
+Firmware: https://github.com/openairproject/sensor-esp32</text>
 </plain>
 <instances>
 <instance part="LED1" gate="G$1" x="99.06" y="50.8" smashed="yes">
@@ -4625,6 +4636,17 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <attribute name="NAME" x="105.6386" y="132.08" size="1.778" layer="95" rot="MR90"/>
 <attribute name="VALUE" x="100.838" y="132.08" size="1.778" layer="96" rot="MR90"/>
 </instance>
+<instance part="U$9" gate="G$1" x="152.4" y="25.4" smashed="yes"/>
+<instance part="U$10" gate="G$1" x="152.4" y="40.64" smashed="yes"/>
+<instance part="U$11" gate="G$1" x="152.4" y="38.1" smashed="yes"/>
+<instance part="U$12" gate="G$1" x="152.4" y="43.18" smashed="yes"/>
+<instance part="U$13" gate="G$1" x="152.4" y="45.72" smashed="yes"/>
+<instance part="U$14" gate="G$1" x="152.4" y="27.94" smashed="yes"/>
+<instance part="U$16" gate="G$1" x="205.74" y="35.56" smashed="yes"/>
+<instance part="U$17" gate="G$1" x="152.4" y="48.26" smashed="yes"/>
+<instance part="U$18" gate="G$1" x="152.4" y="50.8" smashed="yes"/>
+<instance part="U$19" gate="G$1" x="205.74" y="43.18" smashed="yes"/>
+<instance part="U$20" gate="G$1" x="187.96" y="17.78" smashed="yes"/>
 </instances>
 <busses>
 </busses>
@@ -5005,37 +5027,30 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 </net>
 <net name="PMS_SET" class="0">
 <segment>
-<pinref part="IC4" gate="IC$1" pin="IO14"/>
-<wire x1="152.4" y1="27.94" x2="147.32" y2="27.94" width="0.1524" layer="91"/>
-<label x="147.32" y="27.94" size="1.27" layer="95" rot="R180" xref="yes"/>
+<pinref part="IC4" gate="IC$1" pin="IO25"/>
+<wire x1="152.4" y1="35.56" x2="147.32" y2="35.56" width="0.1524" layer="91"/>
+<label x="147.32" y="35.56" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
-<net name="GPIO16" class="0">
+<net name="PMS_TX" class="0">
 <segment>
 <pinref part="IC4" gate="IC$1" pin="IO16"/>
 <wire x1="205.74" y1="30.48" x2="210.82" y2="30.48" width="0.1524" layer="91"/>
 <label x="210.82" y="30.48" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="PMS_TX" class="0">
-<segment>
-<pinref part="IC4" gate="IC$1" pin="IO17"/>
-<wire x1="205.74" y1="33.02" x2="210.82" y2="33.02" width="0.1524" layer="91"/>
-<label x="210.82" y="33.02" size="1.27" layer="95" xref="yes"/>
-</segment>
-</net>
 <net name="SDA" class="0">
 <segment>
-<pinref part="IC4" gate="IC$1" pin="IO25"/>
-<wire x1="152.4" y1="35.56" x2="147.32" y2="35.56" width="0.1524" layer="91"/>
-<label x="147.32" y="35.56" size="1.27" layer="95" rot="R180" xref="yes"/>
+<pinref part="IC4" gate="IC$1" pin="IO21"/>
+<wire x1="205.74" y1="45.72" x2="210.82" y2="45.72" width="0.1524" layer="91"/>
+<label x="210.82" y="45.72" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="SCL" class="0">
 <segment>
-<pinref part="IC4" gate="IC$1" pin="IO26"/>
-<wire x1="152.4" y1="33.02" x2="147.32" y2="33.02" width="0.1524" layer="91"/>
-<label x="147.32" y="33.02" size="1.27" layer="95" rot="R180" xref="yes"/>
+<pinref part="IC4" gate="IC$1" pin="IO22"/>
+<wire x1="205.74" y1="53.34" x2="210.82" y2="53.34" width="0.1524" layer="91"/>
+<label x="210.82" y="53.34" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="GPIO2" class="0">
@@ -5053,7 +5068,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <label x="210.82" y="27.94" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="GPIO18" class="0">
+<net name="TFT_SCLK" class="0">
 <segment>
 <pinref part="IC4" gate="IC$1" pin="IO18"/>
 <wire x1="205.74" y1="38.1" x2="210.82" y2="38.1" width="0.1524" layer="91"/>
@@ -5067,25 +5082,11 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <label x="210.82" y="55.88" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="PMS_RX" class="0">
-<segment>
-<pinref part="IC4" gate="IC$1" pin="IO12"/>
-<wire x1="152.4" y1="25.4" x2="147.32" y2="25.4" width="0.1524" layer="91"/>
-<label x="147.32" y="25.4" size="1.27" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
 <net name="PMS_RESET" class="0">
 <segment>
 <pinref part="IC4" gate="IC$1" pin="IO27"/>
 <wire x1="152.4" y1="30.48" x2="147.32" y2="30.48" width="0.1524" layer="91"/>
 <label x="147.32" y="30.48" size="1.27" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
-<net name="N$4" class="0">
-<segment>
-<pinref part="IC4" gate="IC$1" pin="IO34"/>
-<wire x1="152.4" y1="45.72" x2="147.32" y2="45.72" width="0.1524" layer="91"/>
-<label x="147.32" y="45.72" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="N$13" class="0">
@@ -5145,6 +5146,35 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <junction x="63.5" y="144.78"/>
 </segment>
 </net>
+<net name="GPIO13" class="0">
+<segment>
+<pinref part="IC4" gate="IC$1" pin="IO13"/>
+<wire x1="170.18" y1="17.78" x2="170.18" y2="12.7" width="0.1524" layer="91"/>
+<wire x1="170.18" y1="12.7" x2="172.72" y2="12.7" width="0.1524" layer="91"/>
+<label x="172.72" y="12.7" size="1.27" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="PMS_RX" class="0">
+<segment>
+<pinref part="IC4" gate="IC$1" pin="IO17"/>
+<wire x1="205.74" y1="33.02" x2="210.82" y2="33.02" width="0.1524" layer="91"/>
+<label x="210.82" y="33.02" size="1.27" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="TFT_CIPO" class="0">
+<segment>
+<pinref part="IC4" gate="IC$1" pin="IO19"/>
+<wire x1="205.74" y1="40.64" x2="210.82" y2="40.64" width="0.1524" layer="91"/>
+<label x="210.82" y="40.64" size="1.27" layer="95" xref="yes"/>
+</segment>
+</net>
+<net name="TFT_CS" class="0">
+<segment>
+<pinref part="IC4" gate="IC$1" pin="IO26"/>
+<wire x1="152.4" y1="33.02" x2="147.32" y2="33.02" width="0.1524" layer="91"/>
+<label x="147.32" y="33.02" size="1.27" layer="95" rot="R180" xref="yes"/>
+</segment>
+</net>
 </nets>
 </sheet>
 <sheet>
@@ -5159,7 +5189,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <wire x1="99.06" y1="127" x2="99.06" y2="177.8" width="0.4064" layer="97" style="longdash"/>
 <wire x1="99.06" y1="177.8" x2="7.62" y2="177.8" width="0.4064" layer="97" style="longdash"/>
 <text x="12.7" y="171.958" size="2.54" layer="94" ratio="16">Environmental Sensor</text>
-<text x="180.34" y="171.958" size="2.54" layer="94" ratio="16">128x32 I2C OLED Module</text>
+<text x="180.34" y="171.958" size="2.54" layer="94" ratio="16">240x240 SPI LCD Module</text>
 <text x="109.22" y="171.958" size="2.54" layer="94" ratio="16">Particulate Matter Sensor</text>
 <wire x1="170.18" y1="177.8" x2="104.14" y2="177.8" width="0.4064" layer="97" style="longdash"/>
 <wire x1="170.18" y1="127" x2="104.14" y2="127" width="0.4064" layer="97" style="longdash"/>
@@ -5484,35 +5514,11 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <wire x1="53.34" y1="96.52" x2="63.5" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 </net>
-<net name="GPIO16" class="0">
-<segment>
-<pinref part="Q2" gate="G$1" pin="S"/>
-<pinref part="R4" gate="G$1" pin="1"/>
-<wire x1="38.1" y1="96.52" x2="33.02" y2="96.52" width="0.1524" layer="91"/>
-<wire x1="33.02" y1="96.52" x2="30.48" y2="96.52" width="0.1524" layer="91"/>
-<junction x="33.02" y="96.52"/>
-<label x="30.48" y="96.52" size="1.27" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
-<net name="GPIO18" class="0">
+<net name="TFT_SCLK" class="0">
 <segment>
 <pinref part="LCD" gate="G$1" pin="SCK"/>
 <wire x1="198.12" y1="157.48" x2="193.04" y2="157.48" width="0.1524" layer="91"/>
 <label x="193.04" y="157.48" size="1.27" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
-<net name="GPIO23" class="0">
-<segment>
-<pinref part="LCD" gate="G$1" pin="SDA"/>
-<wire x1="198.12" y1="154.94" x2="193.04" y2="154.94" width="0.1524" layer="91"/>
-<label x="193.04" y="154.94" size="1.27" layer="95" rot="R180" xref="yes"/>
-</segment>
-</net>
-<net name="GPIO4" class="0">
-<segment>
-<pinref part="LCD" gate="G$1" pin="RES"/>
-<wire x1="198.12" y1="152.4" x2="193.04" y2="152.4" width="0.1524" layer="91"/>
-<label x="193.04" y="152.4" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="GPIO2" class="0">
@@ -5532,6 +5538,30 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <wire x1="213.36" y1="96.52" x2="210.82" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="210.82" y1="96.52" x2="210.82" y2="99.06" width="0.1524" layer="91"/>
 <junction x="210.82" y="99.06"/>
+</segment>
+</net>
+<net name="GPIO13" class="0">
+<segment>
+<pinref part="Q2" gate="G$1" pin="S"/>
+<pinref part="R4" gate="G$1" pin="1"/>
+<wire x1="38.1" y1="96.52" x2="33.02" y2="96.52" width="0.1524" layer="91"/>
+<wire x1="33.02" y1="96.52" x2="30.48" y2="96.52" width="0.1524" layer="91"/>
+<junction x="33.02" y="96.52"/>
+<label x="30.48" y="96.52" size="1.27" layer="95" rot="R180" xref="yes"/>
+</segment>
+</net>
+<net name="TFT_COPI" class="0">
+<segment>
+<pinref part="LCD" gate="G$1" pin="SDA"/>
+<wire x1="198.12" y1="154.94" x2="193.04" y2="154.94" width="0.1524" layer="91"/>
+<label x="193.04" y="154.94" size="1.27" layer="95" rot="R180" xref="yes"/>
+</segment>
+</net>
+<net name="TFT_RESET" class="0">
+<segment>
+<pinref part="LCD" gate="G$1" pin="RES"/>
+<wire x1="198.12" y1="152.4" x2="193.04" y2="152.4" width="0.1524" layer="91"/>
+<label x="193.04" y="152.4" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 </nets>
