@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="ASCII"?>
+<document:XMLDocument xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:document="http://www.silabs.com/config/document/document.ecore">
+  <documentObject id="cp2102" version="1.0">
+    <propertyValue propertyId="cp210x_base.customer.address" value="&#xA;&#xA;,  &#xA;"/>
+    <propertyValue propertyId="cp210x_base.customer.contactname" value=" "/>
+    <propertyValue propertyId="cp210x_base.serialization.serialKey" value="1BFC010F-BC0F-4DBA-BDBA-E20D3BFC3772"/>
+    <propertyValue propertyId="cp210x_base.set_ids.maxPower_real" value="250"/>
+    <propertyValue propertyId="cp210x_base.set_ids.maxPower_user" value="500"/>
+  </documentObject>
+</document:XMLDocument>
