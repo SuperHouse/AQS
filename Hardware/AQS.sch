@@ -1801,12 +1801,12 @@ SENSOR</text>
 </package3d>
 </packages3d>
 <symbols>
-<symbol name="OLED-SPI" urn="urn:adsk.eagle:symbol:17123363/1" library_version="21">
-<pin name="SCK" x="-10.16" y="5.08" length="short"/>
-<pin name="SDA" x="-10.16" y="2.54" length="short"/>
+<symbol name="OLED-SPI" urn="urn:adsk.eagle:symbol:17123363/3" library_version="23">
+<pin name="SCLK" x="-10.16" y="5.08" length="short"/>
+<pin name="COPI" x="-10.16" y="2.54" length="short"/>
 <pin name="VCC" x="10.16" y="5.08" length="short" rot="R180"/>
 <pin name="GND" x="10.16" y="-5.08" length="short" rot="R180"/>
-<pin name="RES" x="-10.16" y="0" length="short"/>
+<pin name="!RST" x="-10.16" y="0" length="short"/>
 <pin name="DC" x="-10.16" y="-2.54" length="short"/>
 <pin name="BLK" x="-10.16" y="-5.08" length="short"/>
 <wire x1="-7.62" y1="-7.62" x2="7.62" y2="-7.62" width="0.254" layer="94"/>
@@ -1818,19 +1818,19 @@ SENSOR</text>
 </symbol>
 </symbols>
 <devicesets>
-<deviceset name="OLED-SPI" urn="urn:adsk.eagle:component:17123366/2" library_version="21">
+<deviceset name="OLED-SPI" urn="urn:adsk.eagle:component:17123366/4" library_version="23">
 <gates>
 <gate name="G$1" symbol="OLED-SPI" x="0" y="0"/>
 </gates>
 <devices>
 <device name="-PINS" package="OLED-240X240-1.3">
 <connects>
+<connect gate="G$1" pin="!RST" pad="RES"/>
 <connect gate="G$1" pin="BLK" pad="BLK"/>
+<connect gate="G$1" pin="COPI" pad="SDA"/>
 <connect gate="G$1" pin="DC" pad="DC"/>
 <connect gate="G$1" pin="GND" pad="GND"/>
-<connect gate="G$1" pin="RES" pad="RES"/>
-<connect gate="G$1" pin="SCK" pad="SCK"/>
-<connect gate="G$1" pin="SDA" pad="SDA"/>
+<connect gate="G$1" pin="SCLK" pad="SCK"/>
 <connect gate="G$1" pin="VCC" pad="VCC"/>
 </connects>
 <package3dinstances>
@@ -1842,12 +1842,12 @@ SENSOR</text>
 </device>
 <device name="-HEADER" package="OLED-240X240-1.3-HEADER">
 <connects>
+<connect gate="G$1" pin="!RST" pad="RES"/>
 <connect gate="G$1" pin="BLK" pad="BLK"/>
+<connect gate="G$1" pin="COPI" pad="SDA"/>
 <connect gate="G$1" pin="DC" pad="DC"/>
 <connect gate="G$1" pin="GND" pad="GND"/>
-<connect gate="G$1" pin="RES" pad="RES"/>
-<connect gate="G$1" pin="SCK" pad="SCK"/>
-<connect gate="G$1" pin="SDA" pad="SDA"/>
+<connect gate="G$1" pin="SCLK" pad="SCK"/>
 <connect gate="G$1" pin="VCC" pad="VCC"/>
 </connects>
 <package3dinstances>
@@ -4305,6 +4305,80 @@ CP2104 USB to serial converter. The CP2104 is not recommended for new designs: r
 </deviceset>
 </devicesets>
 </library>
+<library name="SuperHouse-Symbols" urn="urn:adsk.eagle:library:13228893">
+<packages>
+<package name="FIDUCIAL-1.5X3" urn="urn:adsk.eagle:footprint:13228896/1" library_version="1">
+<circle x="0" y="0" radius="0.9055" width="1.27" layer="29"/>
+<smd name="1" x="0" y="0" dx="1.5" dy="1.5" layer="1" roundness="100" cream="no"/>
+</package>
+<package name="FIDUCIAL-1X2" urn="urn:adsk.eagle:footprint:13228895/1" library_version="1">
+<smd name="1" x="0" y="0" dx="1" dy="1" layer="1" roundness="100" cream="no"/>
+</package>
+<package name="FIDUCIAL-1X2.5" urn="urn:adsk.eagle:footprint:13228894/1" library_version="1">
+<circle x="0" y="0" radius="0.9" width="1.27" layer="29"/>
+<smd name="1" x="0" y="0" dx="1" dy="1" layer="1" roundness="100" cream="no"/>
+</package>
+</packages>
+<packages3d>
+<package3d name="FIDUCIAL-1.5X3" urn="urn:adsk.eagle:package:13228900/1" type="box" library_version="1">
+<packageinstances>
+<packageinstance name="FIDUCIAL-1.5X3"/>
+</packageinstances>
+</package3d>
+<package3d name="FIDUCIAL-1X2" urn="urn:adsk.eagle:package:13228899/1" type="box" library_version="1">
+<packageinstances>
+<packageinstance name="FIDUCIAL-1X2"/>
+</packageinstances>
+</package3d>
+<package3d name="FIDUCIAL-1X2.5" urn="urn:adsk.eagle:package:13228898/1" type="box" library_version="1">
+<packageinstances>
+<packageinstance name="FIDUCIAL-1X2.5"/>
+</packageinstances>
+</package3d>
+</packages3d>
+<symbols>
+<symbol name="FIDUCIAL" urn="urn:adsk.eagle:symbol:13228897/1" library_version="1">
+<wire x1="-0.762" y1="0.762" x2="0.762" y2="-0.762" width="0.254" layer="94"/>
+<wire x1="0.762" y1="0.762" x2="-0.762" y2="-0.762" width="0.254" layer="94"/>
+<circle x="0" y="0" radius="1.27" width="0.254" layer="94"/>
+</symbol>
+</symbols>
+<devicesets>
+<deviceset name="FIDUCIAL" urn="urn:adsk.eagle:component:13228901/1" library_version="1">
+<description>&lt;b&gt;Fiducial Alignment Points&lt;/b&gt;
+Various fiducial points for machine vision alignment.</description>
+<gates>
+<gate name="G$1" symbol="FIDUCIAL" x="0" y="0"/>
+</gates>
+<devices>
+<device name="1.5X3" package="FIDUCIAL-1.5X3">
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:13228900/1"/>
+</package3dinstances>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="1X2" package="FIDUCIAL-1X2">
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:13228899/1"/>
+</package3dinstances>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+<device name="1X2.5" package="FIDUCIAL-1X2.5">
+<package3dinstances>
+<package3dinstance package3d_urn="urn:adsk.eagle:package:13228898/1"/>
+</package3dinstances>
+<technologies>
+<technology name=""/>
+</technologies>
+</device>
+</devices>
+</deviceset>
+</devicesets>
+</library>
 </libraries>
 <attributes>
 </attributes>
@@ -4321,49 +4395,49 @@ CP2104 USB to serial converter. The CP2104 is not recommended for new designs: r
 <parts>
 <part name="U$15" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
 <part name="LED1" library="SuperHouse-LEDs" library_urn="urn:adsk.eagle:library:11790571" deviceset="LED" device="0603" package3d_urn="urn:adsk.eagle:package:7066240/3" value="BLUE"/>
-<part name="R1" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="10K"/>
+<part name="R9" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="10K"/>
 <part name="P+1" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="3.3V" device=""/>
-<part name="IC1" library="SuperHouse-Sensors" library_urn="urn:adsk.eagle:library:11819082" deviceset="BME680" device="" package3d_urn="urn:adsk.eagle:package:13200129/2"/>
+<part name="IC3" library="SuperHouse-Sensors" library_urn="urn:adsk.eagle:library:11819082" deviceset="BME680" device="" package3d_urn="urn:adsk.eagle:package:13200129/2"/>
 <part name="GND5" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="GND" device=""/>
 <part name="P+4" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="3.3V" device=""/>
 <part name="C1" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="CAP" device="0603" package3d_urn="urn:adsk.eagle:package:7066315/6" value="100nF"/>
 <part name="J2" library="SuperHouse-Connectors" library_urn="urn:adsk.eagle:library:11765989" deviceset="M02X5" device="-1.27-S" package3d_urn="urn:adsk.eagle:package:16997075/2"/>
-<part name="LED2" library="SuperHouse-LEDs" library_urn="urn:adsk.eagle:library:11790571" deviceset="WS2812B" device="5050" package3d_urn="urn:adsk.eagle:package:7066465/3"/>
-<part name="GND3" library="freetronics-original" deviceset="GND" device=""/>
 <part name="LED4" library="SuperHouse-LEDs" library_urn="urn:adsk.eagle:library:11790571" deviceset="WS2812B" device="5050" package3d_urn="urn:adsk.eagle:package:7066465/3"/>
+<part name="GND3" library="freetronics-original" deviceset="GND" device=""/>
+<part name="LED5" library="SuperHouse-LEDs" library_urn="urn:adsk.eagle:library:11790571" deviceset="WS2812B" device="5050" package3d_urn="urn:adsk.eagle:package:7066465/3"/>
 <part name="U$2" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="5V" device=""/>
 <part name="U$3" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="5V" device=""/>
 <part name="GND6" library="freetronics-original" deviceset="GND" device=""/>
 <part name="GND7" library="freetronics-original" deviceset="GND" device=""/>
 <part name="U$4" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
 <part name="U$5" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
-<part name="C3" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="CAP" device="0603" package3d_urn="urn:adsk.eagle:package:7066315/6" value="10uF"/>
+<part name="C3" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="CAP" device="0805" package3d_urn="urn:adsk.eagle:package:7066318/4" value="10uF"/>
 <part name="Z1" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="TVS" device="0603" package3d_urn="urn:adsk.eagle:package:11801346/2" value="PGB1010603"/>
 <part name="Z2" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="TVS" device="0603" package3d_urn="urn:adsk.eagle:package:11801346/2" value="PGB1010603"/>
 <part name="GND1" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="GND" device=""/>
 <part name="U$6" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="5V" device=""/>
-<part name="R6" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="5.1K"/>
+<part name="R7" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="5.1K"/>
 <part name="VR1" library="SuperHouse-Regulators" library_urn="urn:adsk.eagle:library:11786698" deviceset="AP2112K" device="SOT25" package3d_urn="urn:adsk.eagle:package:7066291/2"/>
 <part name="U$8" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="5V" device=""/>
-<part name="R5" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="10K"/>
-<part name="R7" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="10K"/>
+<part name="R10" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="10K"/>
+<part name="R11" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="10K"/>
 <part name="Q1" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="TRANS_NPN_DUAL" device="-MMDT3904" package3d_urn="urn:adsk.eagle:package:11799616/2" value="MMDT3904"/>
-<part name="C2" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="CAP" device="0603" package3d_urn="urn:adsk.eagle:package:7066315/6" value="10uF"/>
+<part name="C2" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="CAP" device="0805" package3d_urn="urn:adsk.eagle:package:7066318/4" value="10uF"/>
 <part name="GND12" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="GND" device=""/>
 <part name="F1" library="SuperHouse-Fuses" library_urn="urn:adsk.eagle:library:11769263" deviceset="PTC" device="" package3d_urn="urn:adsk.eagle:package:11769373/4" technology="050" value="500mA 1812 PTC"/>
-<part name="R10" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="5.1K"/>
+<part name="R8" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="5.1K"/>
 <part name="J3" library="SuperHouse-Connectors" library_urn="urn:adsk.eagle:library:11765989" deviceset="USB-C-16P" device="-16P" package3d_urn="urn:adsk.eagle:package:17045956/2"/>
 <part name="GND13" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="GND" device=""/>
-<part name="R11" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="22K"/>
+<part name="R13" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="22K"/>
 <part name="S2" library="SuperHouse-Switches" library_urn="urn:adsk.eagle:library:11744182" deviceset="TAC_SWITCH_2PIN" device="SMT" package3d_urn="urn:adsk.eagle:package:11818379/4" value="RESET"/>
 <part name="GND14" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="GND" device=""/>
 <part name="R12" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="22K"/>
-<part name="IC4" library="SuperHouse-MCUs" library_urn="urn:adsk.eagle:library:11815114" deviceset="ESPWROOM32" device="" package3d_urn="urn:adsk.eagle:package:11815117/2"/>
-<part name="C5" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="CAP" device="0805" package3d_urn="urn:adsk.eagle:package:7066318/4" value="10uF 50V"/>
+<part name="IC1" library="SuperHouse-MCUs" library_urn="urn:adsk.eagle:library:11815114" deviceset="ESPWROOM32" device="" package3d_urn="urn:adsk.eagle:package:11815117/2"/>
+<part name="C5" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="CAP" device="0805" package3d_urn="urn:adsk.eagle:package:7066318/4" value="10uF"/>
 <part name="C4" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="CAP" device="0603" package3d_urn="urn:adsk.eagle:package:7066315/6" value="1uF"/>
 <part name="Q2" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="MOSFET-NCHANNEL" device="-233" package3d_urn="urn:adsk.eagle:package:11815952/3" value="2N7002"/>
 <part name="R4" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="4K7"/>
-<part name="R13" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="4K7"/>
+<part name="R3" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="4K7"/>
 <part name="P+7" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="3.3V" device=""/>
 <part name="U$7" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="5V" device=""/>
 <part name="J1" library="SuperHouse-ESP-Prog" library_urn="urn:adsk.eagle:library:14353672" deviceset="ESP-PROG" device="-2X3-1.27-SHROUDED" package3d_urn="urn:adsk.eagle:package:14377920/3" value="ESP-PROG-2X3-1.27-SHROUDED"/>
@@ -4377,22 +4451,22 @@ CP2104 USB to serial converter. The CP2104 is not recommended for new designs: r
 <part name="LCD" library="SuperHouse-Displays" library_urn="urn:adsk.eagle:library:11966779" deviceset="OLED-SPI" device="-HEADER" package3d_urn="urn:adsk.eagle:package:17123364/2"/>
 <part name="GND17" library="freetronics-original" deviceset="GND" device=""/>
 <part name="P+10" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="3.3V" device=""/>
-<part name="R14" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="4K7"/>
-<part name="R15" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="4K7"/>
+<part name="R6" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="4K7"/>
+<part name="R5" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="4K7"/>
 <part name="S1" library="SuperHouse-Switches" library_urn="urn:adsk.eagle:library:11744182" deviceset="TAC_SWITCH" device="-PTH-4.5" package3d_urn="urn:adsk.eagle:package:7066371/2" value="MODE"/>
-<part name="C12" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="CAP" device="0603" package3d_urn="urn:adsk.eagle:package:7066315/6" value="100nF"/>
-<part name="LED6" library="SuperHouse-LEDs" library_urn="urn:adsk.eagle:library:11790571" deviceset="LED" device="0603" package3d_urn="urn:adsk.eagle:package:7066240/3" value="RX/GRN"/>
-<part name="LED5" library="SuperHouse-LEDs" library_urn="urn:adsk.eagle:library:11790571" deviceset="LED" device="0603" package3d_urn="urn:adsk.eagle:package:7066240/3" value="TX/YEL"/>
+<part name="C7" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="CAP" device="0603" package3d_urn="urn:adsk.eagle:package:7066315/6" value="100nF"/>
+<part name="LED3" library="SuperHouse-LEDs" library_urn="urn:adsk.eagle:library:11790571" deviceset="LED" device="0603" package3d_urn="urn:adsk.eagle:package:7066240/3" value="RX/GRN"/>
+<part name="LED2" library="SuperHouse-LEDs" library_urn="urn:adsk.eagle:library:11790571" deviceset="LED" device="0603" package3d_urn="urn:adsk.eagle:package:7066240/3" value="TX/YEL"/>
 <part name="IC2" library="SuperHouse-ICs" library_urn="urn:adsk.eagle:library:11768868" deviceset="CP2104" device="" package3d_urn="urn:adsk.eagle:package:7066298/2" value="CP2102N-A01-GQFN24"/>
 <part name="GND10" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="GND" device=""/>
 <part name="P+2" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="3.3V" device=""/>
 <part name="GND18" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="GND" device=""/>
 <part name="U$1" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="5V" device=""/>
-<part name="R2" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="22.1K"/>
-<part name="R3" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="47.5K"/>
+<part name="R14" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="22.1K"/>
+<part name="R15" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="47.5K"/>
 <part name="P+3" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="3.3V" device=""/>
-<part name="R8" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="1K"/>
-<part name="R9" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="1K"/>
+<part name="R2" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="1K"/>
+<part name="R1" library="SuperHouse-DiscreteSemi" library_urn="urn:adsk.eagle:library:11768461" deviceset="RESISTOR" device="0603" package3d_urn="urn:adsk.eagle:package:11768543/2" value="1K"/>
 <part name="U$9" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
 <part name="U$10" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
 <part name="U$11" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
@@ -4404,6 +4478,11 @@ CP2104 USB to serial converter. The CP2104 is not recommended for new designs: r
 <part name="U$18" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
 <part name="U$19" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
 <part name="U$20" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
+<part name="U$21" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
+<part name="U$22" library="SuperHouse-SupplySymbols" library_urn="urn:adsk.eagle:library:11790503" deviceset="NC" device=""/>
+<part name="U$23" library="SuperHouse-Symbols" library_urn="urn:adsk.eagle:library:13228893" deviceset="FIDUCIAL" device="1X2" package3d_urn="urn:adsk.eagle:package:13228899/1"/>
+<part name="U$24" library="SuperHouse-Symbols" library_urn="urn:adsk.eagle:library:13228893" deviceset="FIDUCIAL" device="1X2" package3d_urn="urn:adsk.eagle:package:13228899/1"/>
+<part name="U$25" library="SuperHouse-Symbols" library_urn="urn:adsk.eagle:library:13228893" deviceset="FIDUCIAL" device="1X2" package3d_urn="urn:adsk.eagle:package:13228899/1"/>
 </parts>
 <sheets>
 <sheet>
@@ -4418,7 +4497,7 @@ CP2104 USB to serial converter. The CP2104 is not recommended for new designs: r
 <frame x1="0" y1="0" x2="248.92" y2="185.42" columns="8" rows="5" layer="94"/>
 <wire x1="106.68" y1="83.82" x2="106.68" y2="33.02" width="0.4064" layer="97" style="longdash"/>
 <wire x1="45.72" y1="33.02" x2="106.68" y2="33.02" width="0.4064" layer="97" style="longdash"/>
-<wire x1="241.3" y1="177.8" x2="241.3" y2="129.54" width="0.4064" layer="97" style="longdash"/>
+<wire x1="241.3" y1="177.8" x2="241.3" y2="132.08" width="0.4064" layer="97" style="longdash"/>
 <wire x1="241.3" y1="127" x2="241.3" y2="88.9" width="0.4064" layer="97" style="longdash"/>
 <wire x1="83.82" y1="177.8" x2="175.26" y2="177.8" width="0.4064" layer="97" style="longdash"/>
 <wire x1="175.26" y1="177.8" x2="175.26" y2="88.9" width="0.4064" layer="97" style="longdash"/>
@@ -4428,7 +4507,7 @@ CP2104 USB to serial converter. The CP2104 is not recommended for new designs: r
 <wire x1="78.74" y1="88.9" x2="7.62" y2="88.9" width="0.4064" layer="97" style="longdash"/>
 <wire x1="7.62" y1="88.9" x2="7.62" y2="177.8" width="0.4064" layer="97" style="longdash"/>
 <wire x1="7.62" y1="177.8" x2="78.74" y2="177.8" width="0.4064" layer="97" style="longdash"/>
-<wire x1="180.34" y1="177.8" x2="180.34" y2="129.54" width="0.4064" layer="97" style="longdash"/>
+<wire x1="180.34" y1="177.8" x2="180.34" y2="132.08" width="0.4064" layer="97" style="longdash"/>
 <wire x1="180.34" y1="127" x2="180.34" y2="88.9" width="0.4064" layer="97" style="longdash"/>
 <wire x1="180.34" y1="88.9" x2="241.3" y2="88.9" width="0.4064" layer="97" style="longdash"/>
 <wire x1="241.3" y1="177.8" x2="180.34" y2="177.8" width="0.4064" layer="97" style="longdash"/>
@@ -4443,12 +4522,12 @@ CP2104 USB to serial converter. The CP2104 is not recommended for new designs: r
 <wire x1="111.76" y1="83.82" x2="111.76" y2="7.62" width="0.4064" layer="97" style="longdash"/>
 <wire x1="241.3" y1="83.82" x2="241.3" y2="7.62" width="0.4064" layer="97" style="longdash"/>
 <wire x1="241.3" y1="7.62" x2="111.76" y2="7.62" width="0.4064" layer="97" style="longdash"/>
-<text x="114.3" y="8.89" size="1.778" layer="97">WARNING: GPIO32/33 are used by RTC. Need to
+<text x="114.3" y="8.89" size="1.4224" layer="97">WARNING: GPIO32/33 are used by RTC. Need to
 modify WROOM32 to use them as outputs</text>
-<text x="7.62" y="76.2" size="1.778" layer="97">I2C Address:
+<text x="83.82" y="22.86" size="1.778" layer="97">I2C Addresses:
 0x77: BME680</text>
 <wire x1="241.3" y1="127" x2="180.34" y2="127" width="0.4064" layer="97" style="longdash"/>
-<wire x1="241.3" y1="129.54" x2="180.34" y2="129.54" width="0.4064" layer="97" style="longdash"/>
+<wire x1="241.3" y1="132.08" x2="180.34" y2="132.08" width="0.4064" layer="97" style="longdash"/>
 <text x="185.42" y="121.92" size="2.54" layer="94">ESP-Prog Header</text>
 <text x="7.62" y="22.86" size="1.778" layer="97">GPIO0:  Button (active low)
 GPIO1:  USB_TX
@@ -4459,12 +4538,10 @@ GPIO13: WS2812B
 GPIO16: PMS_TX (RX2 of MCU)
 GPIO17: PMS_RX (TX2 of MCU)
 GPIO18: TFT_SCLK
-GPIO19: TFT_MISO
 GPIO21: SDA
 GPIO22: SCL
-GPIO23: TFT_MOSI
+GPIO23: TFT_COPI
 GPIO25: PMS_SET
-GPIO26: TFT_CS
 GPIO27: PMS_RESET
 
 Firmware: https://github.com/openairproject/sensor-esp32</text>
@@ -4474,7 +4551,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <attribute name="NAME" x="102.616" y="46.228" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="104.775" y="46.228" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="R1" gate="G$1" x="99.06" y="58.42" smashed="yes" rot="R90">
+<instance part="R9" gate="G$1" x="99.06" y="58.42" smashed="yes" rot="R90">
 <attribute name="NAME" x="97.5614" y="54.61" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="102.362" y="54.61" size="1.778" layer="96" rot="R90"/>
 </instance>
@@ -4499,7 +4576,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <instance part="U$6" gate="G$1" x="63.5" y="162.56" smashed="yes">
 <attribute name="VALUE" x="62.484" y="166.116" size="1.778" layer="96"/>
 </instance>
-<instance part="R6" gate="G$1" x="48.26" y="114.3" smashed="yes" rot="R90">
+<instance part="R7" gate="G$1" x="48.26" y="114.3" smashed="yes" rot="R90">
 <attribute name="NAME" x="46.7614" y="110.49" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="51.562" y="110.49" size="1.778" layer="96" rot="R90"/>
 </instance>
@@ -4509,11 +4586,11 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <instance part="U$8" gate="G$1" x="50.8" y="68.58" smashed="yes">
 <attribute name="VALUE" x="49.784" y="72.136" size="1.778" layer="96"/>
 </instance>
-<instance part="R5" gate="G$1" x="200.66" y="162.56" smashed="yes">
+<instance part="R10" gate="G$1" x="200.66" y="162.56" smashed="yes">
 <attribute name="NAME" x="198.12" y="164.0586" size="1.778" layer="95"/>
 <attribute name="VALUE" x="198.12" y="159.258" size="1.778" layer="96"/>
 </instance>
-<instance part="R7" gate="G$1" x="200.66" y="144.78" smashed="yes">
+<instance part="R11" gate="G$1" x="200.66" y="144.78" smashed="yes">
 <attribute name="NAME" x="198.12" y="146.2786" size="1.778" layer="95"/>
 <attribute name="VALUE" x="198.12" y="141.478" size="1.778" layer="96"/>
 </instance>
@@ -4536,7 +4613,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <attribute name="NAME" x="46.99" y="151.257" size="1.778" layer="95"/>
 <attribute name="VALUE" x="41.91" y="146.939" size="1.778" layer="96"/>
 </instance>
-<instance part="R10" gate="G$1" x="40.64" y="114.3" smashed="yes" rot="R90">
+<instance part="R8" gate="G$1" x="40.64" y="114.3" smashed="yes" rot="R90">
 <attribute name="NAME" x="39.1414" y="110.49" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="43.942" y="110.49" size="1.778" layer="96" rot="R90"/>
 </instance>
@@ -4547,7 +4624,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <instance part="GND13" gate="1" x="208.28" y="12.7" smashed="yes">
 <attribute name="VALUE" x="205.74" y="10.16" size="1.778" layer="96"/>
 </instance>
-<instance part="R11" gate="G$1" x="137.16" y="60.96" smashed="yes" rot="R270">
+<instance part="R13" gate="G$1" x="137.16" y="60.96" smashed="yes" rot="R270">
 <attribute name="NAME" x="134.3914" y="58.928" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="140.208" y="58.928" size="1.778" layer="96" rot="R90"/>
 </instance>
@@ -4562,7 +4639,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <attribute name="NAME" x="229.108" y="30.988" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="230.9114" y="30.988" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="IC4" gate="IC$1" x="177.8" y="43.18" smashed="yes">
+<instance part="IC1" gate="IC$1" x="177.8" y="43.18" smashed="yes">
 <attribute name="NAME" x="166.116" y="64.008" size="1.778" layer="95"/>
 <attribute name="VALUE" x="181.864" y="64.008" size="1.778" layer="96"/>
 </instance>
@@ -4589,15 +4666,15 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <instance part="P+8" gate="G$1" x="226.06" y="40.64" smashed="yes">
 <attribute name="VALUE" x="225.044" y="44.196" size="1.778" layer="96"/>
 </instance>
-<instance part="C12" gate="G$1" x="116.84" y="101.6" smashed="yes">
+<instance part="C7" gate="G$1" x="116.84" y="101.6" smashed="yes">
 <attribute name="NAME" x="110.744" y="104.521" size="1.778" layer="95"/>
 <attribute name="VALUE" x="115.316" y="101.219" size="1.778" layer="96" rot="R180"/>
 </instance>
-<instance part="LED6" gate="G$1" x="93.98" y="152.4" smashed="yes">
+<instance part="LED3" gate="G$1" x="93.98" y="152.4" smashed="yes">
 <attribute name="NAME" x="92.456" y="142.748" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="89.789" y="145.796" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="LED5" gate="G$1" x="104.14" y="152.4" smashed="yes">
+<instance part="LED2" gate="G$1" x="104.14" y="152.4" smashed="yes">
 <attribute name="NAME" x="102.616" y="142.748" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="99.949" y="145.796" size="1.778" layer="96" rot="R90"/>
 </instance>
@@ -4617,22 +4694,22 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <instance part="U$1" gate="G$1" x="111.76" y="162.56" smashed="yes">
 <attribute name="VALUE" x="110.744" y="166.116" size="1.778" layer="96"/>
 </instance>
-<instance part="R2" gate="G$1" x="111.76" y="154.94" smashed="yes" rot="R90">
+<instance part="R14" gate="G$1" x="111.76" y="154.94" smashed="yes" rot="R90">
 <attribute name="NAME" x="110.2614" y="153.67" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="115.062" y="153.67" size="1.778" layer="96" rot="R90"/>
 </instance>
-<instance part="R3" gate="G$1" x="111.76" y="139.7" smashed="yes" rot="R90">
+<instance part="R15" gate="G$1" x="111.76" y="139.7" smashed="yes" rot="R90">
 <attribute name="NAME" x="110.2614" y="138.43" size="1.778" layer="95" rot="R90"/>
 <attribute name="VALUE" x="115.062" y="138.43" size="1.778" layer="96" rot="R90"/>
 </instance>
 <instance part="P+3" gate="G$1" x="99.06" y="162.56" smashed="yes">
 <attribute name="VALUE" x="98.044" y="166.116" size="1.778" layer="96"/>
 </instance>
-<instance part="R8" gate="G$1" x="93.98" y="134.62" smashed="yes" rot="MR90">
+<instance part="R2" gate="G$1" x="93.98" y="134.62" smashed="yes" rot="MR90">
 <attribute name="NAME" x="95.4786" y="132.08" size="1.778" layer="95" rot="MR90"/>
 <attribute name="VALUE" x="90.678" y="132.08" size="1.778" layer="96" rot="MR90"/>
 </instance>
-<instance part="R9" gate="G$1" x="104.14" y="134.62" smashed="yes" rot="MR90">
+<instance part="R1" gate="G$1" x="104.14" y="134.62" smashed="yes" rot="MR90">
 <attribute name="NAME" x="105.6386" y="132.08" size="1.778" layer="95" rot="MR90"/>
 <attribute name="VALUE" x="100.838" y="132.08" size="1.778" layer="96" rot="MR90"/>
 </instance>
@@ -4647,20 +4724,25 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <instance part="U$18" gate="G$1" x="152.4" y="50.8" smashed="yes"/>
 <instance part="U$19" gate="G$1" x="205.74" y="43.18" smashed="yes"/>
 <instance part="U$20" gate="G$1" x="187.96" y="17.78" smashed="yes"/>
+<instance part="U$21" gate="G$1" x="205.74" y="40.64" smashed="yes"/>
+<instance part="U$22" gate="G$1" x="152.4" y="33.02" smashed="yes"/>
+<instance part="U$23" gate="G$1" x="104.14" y="12.7" smashed="yes"/>
+<instance part="U$24" gate="G$1" x="99.06" y="12.7" smashed="yes"/>
+<instance part="U$25" gate="G$1" x="93.98" y="12.7" smashed="yes"/>
 </instances>
 <busses>
 </busses>
 <nets>
 <net name="GND" class="0">
 <segment>
-<pinref part="R10" gate="G$1" pin="1"/>
+<pinref part="R8" gate="G$1" pin="1"/>
 <pinref part="J3" gate="G$1" pin="GND"/>
 <wire x1="40.64" y1="96.52" x2="40.64" y2="109.22" width="0.1524" layer="91"/>
 <wire x1="25.4" y1="124.46" x2="33.02" y2="124.46" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="124.46" x2="33.02" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="96.52" x2="40.64" y2="96.52" width="0.1524" layer="91"/>
 <junction x="40.64" y="96.52"/>
-<pinref part="R6" gate="G$1" pin="1"/>
+<pinref part="R7" gate="G$1" pin="1"/>
 <wire x1="48.26" y1="96.52" x2="48.26" y2="109.22" width="0.1524" layer="91"/>
 <wire x1="40.64" y1="96.52" x2="48.26" y2="96.52" width="0.1524" layer="91"/>
 <junction x="48.26" y="96.52"/>
@@ -4684,13 +4766,13 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <wire x1="208.28" y1="58.42" x2="205.74" y2="58.42" width="0.1524" layer="91"/>
 <junction x="208.28" y="15.24"/>
 <pinref part="GND13" gate="1" pin="GND"/>
-<pinref part="IC4" gate="IC$1" pin="GND@1"/>
-<pinref part="IC4" gate="IC$1" pin="GND@3"/>
-<pinref part="IC4" gate="IC$1" pin="GND@2"/>
+<pinref part="IC1" gate="IC$1" pin="GND@1"/>
+<pinref part="IC1" gate="IC$1" pin="GND@3"/>
+<pinref part="IC1" gate="IC$1" pin="GND@2"/>
 <wire x1="167.64" y1="17.78" x2="167.64" y2="15.24" width="0.1524" layer="91"/>
 <wire x1="208.28" y1="58.42" x2="208.28" y2="60.96" width="0.1524" layer="91"/>
 <junction x="208.28" y="58.42"/>
-<pinref part="IC4" gate="IC$1" pin="GND@4"/>
+<pinref part="IC1" gate="IC$1" pin="GND@4"/>
 <wire x1="208.28" y1="60.96" x2="205.74" y2="60.96" width="0.1524" layer="91"/>
 <pinref part="C5" gate="G$1" pin="2"/>
 <wire x1="149.86" y1="60.96" x2="149.86" y2="58.42" width="0.1524" layer="91"/>
@@ -4740,13 +4822,13 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <wire x1="154.94" y1="109.22" x2="156.21" y2="109.22" width="0.1524" layer="91"/>
 <wire x1="156.21" y1="109.22" x2="156.21" y2="106.68" width="0.1524" layer="91"/>
 <junction x="156.21" y="106.68"/>
-<pinref part="C12" gate="G$1" pin="2"/>
+<pinref part="C7" gate="G$1" pin="2"/>
 <wire x1="116.84" y1="99.06" x2="116.84" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="116.84" y1="96.52" x2="156.21" y2="96.52" width="0.1524" layer="91"/>
 <junction x="156.21" y="96.52"/>
 </segment>
 <segment>
-<pinref part="R3" gate="G$1" pin="1"/>
+<pinref part="R15" gate="G$1" pin="1"/>
 <pinref part="GND18" gate="1" pin="GND"/>
 <wire x1="111.76" y1="132.08" x2="111.76" y2="134.62" width="0.1524" layer="91"/>
 </segment>
@@ -4754,7 +4836,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <net name="3.3V" class="0">
 <segment>
 <pinref part="P+1" gate="G$1" pin="3.3V"/>
-<pinref part="R1" gate="G$1" pin="2"/>
+<pinref part="R9" gate="G$1" pin="2"/>
 <wire x1="99.06" y1="68.58" x2="99.06" y2="63.5" width="0.1524" layer="91"/>
 <pinref part="VR1" gate="G$1" pin="VOUT"/>
 <pinref part="C2" gate="G$1" pin="1"/>
@@ -4767,12 +4849,12 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <segment>
 <wire x1="152.4" y1="55.88" x2="144.78" y2="55.88" width="0.1524" layer="91"/>
 <wire x1="144.78" y1="55.88" x2="144.78" y2="71.12" width="0.1524" layer="91"/>
-<pinref part="IC4" gate="IC$1" pin="3V3"/>
+<pinref part="IC1" gate="IC$1" pin="3V3"/>
 <pinref part="C5" gate="G$1" pin="1"/>
 <wire x1="149.86" y1="68.58" x2="149.86" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="149.86" y1="71.12" x2="144.78" y2="71.12" width="0.1524" layer="91"/>
 <junction x="144.78" y="71.12"/>
-<pinref part="R11" gate="G$1" pin="1"/>
+<pinref part="R13" gate="G$1" pin="1"/>
 <wire x1="137.16" y1="66.04" x2="137.16" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="144.78" y1="71.12" x2="137.16" y2="71.12" width="0.1524" layer="91"/>
 <pinref part="P+11" gate="G$1" pin="3.3V"/>
@@ -4802,25 +4884,25 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <pinref part="IC2" gate="G$1" pin="VDD"/>
 <wire x1="119.38" y1="149.86" x2="116.84" y2="149.86" width="0.1524" layer="91"/>
 <junction x="116.84" y="149.86"/>
-<pinref part="C12" gate="G$1" pin="1"/>
+<pinref part="C7" gate="G$1" pin="1"/>
 <wire x1="116.84" y1="106.68" x2="116.84" y2="132.08" width="0.1524" layer="91"/>
 <junction x="116.84" y="132.08"/>
 </segment>
 <segment>
-<pinref part="LED6" gate="G$1" pin="A"/>
+<pinref part="LED3" gate="G$1" pin="A"/>
 <wire x1="93.98" y1="154.94" x2="93.98" y2="157.48" width="0.1524" layer="91"/>
 <wire x1="93.98" y1="157.48" x2="99.06" y2="157.48" width="0.1524" layer="91"/>
 <pinref part="P+3" gate="G$1" pin="3.3V"/>
 <wire x1="99.06" y1="157.48" x2="99.06" y2="162.56" width="0.1524" layer="91"/>
 <wire x1="99.06" y1="157.48" x2="104.14" y2="157.48" width="0.1524" layer="91"/>
 <junction x="99.06" y="157.48"/>
-<pinref part="LED5" gate="G$1" pin="A"/>
+<pinref part="LED2" gate="G$1" pin="A"/>
 <wire x1="104.14" y1="157.48" x2="104.14" y2="154.94" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="N$1" class="0">
 <segment>
-<pinref part="R1" gate="G$1" pin="1"/>
+<pinref part="R9" gate="G$1" pin="1"/>
 <pinref part="LED1" gate="G$1" pin="A"/>
 </segment>
 </net>
@@ -4847,7 +4929,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 </segment>
 <segment>
 <pinref part="U$1" gate="G$1" pin="5V"/>
-<pinref part="R2" gate="G$1" pin="2"/>
+<pinref part="R14" gate="G$1" pin="2"/>
 <wire x1="111.76" y1="162.56" x2="111.76" y2="160.02" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -4880,7 +4962,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <wire x1="226.06" y1="25.4" x2="228.6" y2="25.4" width="0.1524" layer="91"/>
 <wire x1="226.06" y1="27.94" x2="226.06" y2="25.4" width="0.1524" layer="91"/>
 <junction x="226.06" y="25.4"/>
-<pinref part="IC4" gate="IC$1" pin="IO0"/>
+<pinref part="IC1" gate="IC$1" pin="IO0"/>
 <label x="228.6" y="25.4" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
@@ -4892,18 +4974,18 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <net name="N$7" class="0">
 <segment>
 <pinref part="Q1" gate="Q1" pin="B"/>
-<pinref part="R5" gate="G$1" pin="2"/>
+<pinref part="R10" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="N$8" class="0">
 <segment>
 <pinref part="Q1" gate="Q2" pin="B"/>
-<pinref part="R7" gate="G$1" pin="2"/>
+<pinref part="R11" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="DTR" class="0">
 <segment>
-<pinref part="R5" gate="G$1" pin="1"/>
+<pinref part="R10" gate="G$1" pin="1"/>
 <wire x1="195.58" y1="162.56" x2="193.04" y2="162.56" width="0.1524" layer="91"/>
 <wire x1="193.04" y1="162.56" x2="193.04" y2="154.94" width="0.1524" layer="91"/>
 <junction x="193.04" y="162.56"/>
@@ -4920,7 +5002,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 </net>
 <net name="RTS" class="0">
 <segment>
-<pinref part="R7" gate="G$1" pin="1"/>
+<pinref part="R11" gate="G$1" pin="1"/>
 <wire x1="195.58" y1="144.78" x2="193.04" y2="144.78" width="0.1524" layer="91"/>
 <wire x1="193.04" y1="144.78" x2="193.04" y2="152.4" width="0.1524" layer="91"/>
 <junction x="193.04" y="144.78"/>
@@ -4946,7 +5028,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <segment>
 <pinref part="J3" gate="G$1" pin="CC2"/>
 <wire x1="25.4" y1="129.54" x2="40.64" y2="129.54" width="0.1524" layer="91"/>
-<pinref part="R10" gate="G$1" pin="2"/>
+<pinref part="R8" gate="G$1" pin="2"/>
 <wire x1="40.64" y1="129.54" x2="40.64" y2="119.38" width="0.1524" layer="91"/>
 </segment>
 </net>
@@ -4954,14 +5036,14 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <segment>
 <pinref part="J3" gate="G$1" pin="CC1"/>
 <wire x1="25.4" y1="132.08" x2="48.26" y2="132.08" width="0.1524" layer="91"/>
-<pinref part="R6" gate="G$1" pin="2"/>
+<pinref part="R7" gate="G$1" pin="2"/>
 <wire x1="48.26" y1="132.08" x2="48.26" y2="119.38" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="TXD0" class="0">
 <segment>
 <wire x1="205.74" y1="50.8" x2="210.82" y2="50.8" width="0.1524" layer="91"/>
-<pinref part="IC4" gate="IC$1" pin="TXD0"/>
+<pinref part="IC1" gate="IC$1" pin="TXD0"/>
 <label x="210.82" y="50.8" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
@@ -4978,7 +5060,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <net name="RXD0" class="0">
 <segment>
 <wire x1="205.74" y1="48.26" x2="210.82" y2="48.26" width="0.1524" layer="91"/>
-<pinref part="IC4" gate="IC$1" pin="RXD0"/>
+<pinref part="IC1" gate="IC$1" pin="RXD0"/>
 <label x="210.82" y="48.26" size="1.27" layer="95" xref="yes"/>
 </segment>
 <segment>
@@ -4995,11 +5077,11 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <net name="!RESET" class="0">
 <segment>
 <wire x1="152.4" y1="53.34" x2="137.16" y2="53.34" width="0.1524" layer="91"/>
-<pinref part="R11" gate="G$1" pin="2"/>
+<pinref part="R13" gate="G$1" pin="2"/>
 <wire x1="137.16" y1="53.34" x2="137.16" y2="55.88" width="0.1524" layer="91"/>
 <label x="139.7" y="53.34" size="1.778" layer="95"/>
 <junction x="137.16" y="53.34"/>
-<pinref part="IC4" gate="IC$1" pin="EN"/>
+<pinref part="IC1" gate="IC$1" pin="EN"/>
 <wire x1="129.54" y1="53.34" x2="137.16" y2="53.34" width="0.1524" layer="91"/>
 <wire x1="129.54" y1="53.34" x2="129.54" y2="71.12" width="0.1524" layer="91"/>
 <wire x1="129.54" y1="71.12" x2="127" y2="71.12" width="0.1524" layer="91"/>
@@ -5027,64 +5109,64 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 </net>
 <net name="PMS_SET" class="0">
 <segment>
-<pinref part="IC4" gate="IC$1" pin="IO25"/>
+<pinref part="IC1" gate="IC$1" pin="IO25"/>
 <wire x1="152.4" y1="35.56" x2="147.32" y2="35.56" width="0.1524" layer="91"/>
 <label x="147.32" y="35.56" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 <net name="PMS_TX" class="0">
 <segment>
-<pinref part="IC4" gate="IC$1" pin="IO16"/>
+<pinref part="IC1" gate="IC$1" pin="IO16"/>
 <wire x1="205.74" y1="30.48" x2="210.82" y2="30.48" width="0.1524" layer="91"/>
 <label x="210.82" y="30.48" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="SDA" class="0">
 <segment>
-<pinref part="IC4" gate="IC$1" pin="IO21"/>
+<pinref part="IC1" gate="IC$1" pin="IO21"/>
 <wire x1="205.74" y1="45.72" x2="210.82" y2="45.72" width="0.1524" layer="91"/>
 <label x="210.82" y="45.72" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="SCL" class="0">
 <segment>
-<pinref part="IC4" gate="IC$1" pin="IO22"/>
+<pinref part="IC1" gate="IC$1" pin="IO22"/>
 <wire x1="205.74" y1="53.34" x2="210.82" y2="53.34" width="0.1524" layer="91"/>
 <label x="210.82" y="53.34" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="GPIO2" class="0">
+<net name="TFT_DC" class="0">
 <segment>
-<pinref part="IC4" gate="IC$1" pin="IO2"/>
+<pinref part="IC1" gate="IC$1" pin="IO2"/>
 <wire x1="190.5" y1="17.78" x2="190.5" y2="12.7" width="0.1524" layer="91"/>
 <wire x1="190.5" y1="12.7" x2="193.04" y2="12.7" width="0.1524" layer="91"/>
 <label x="193.04" y="12.7" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="GPIO4" class="0">
+<net name="TFT_RST" class="0">
 <segment>
-<pinref part="IC4" gate="IC$1" pin="IO4"/>
+<pinref part="IC1" gate="IC$1" pin="IO4"/>
 <wire x1="205.74" y1="27.94" x2="210.82" y2="27.94" width="0.1524" layer="91"/>
 <label x="210.82" y="27.94" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="TFT_SCLK" class="0">
 <segment>
-<pinref part="IC4" gate="IC$1" pin="IO18"/>
+<pinref part="IC1" gate="IC$1" pin="IO18"/>
 <wire x1="205.74" y1="38.1" x2="210.82" y2="38.1" width="0.1524" layer="91"/>
 <label x="210.82" y="38.1" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
-<net name="GPIO23" class="0">
+<net name="TFT_COPI" class="0">
 <segment>
-<pinref part="IC4" gate="IC$1" pin="IO23"/>
+<pinref part="IC1" gate="IC$1" pin="IO23"/>
 <wire x1="205.74" y1="55.88" x2="210.82" y2="55.88" width="0.1524" layer="91"/>
 <label x="210.82" y="55.88" size="1.27" layer="95" xref="yes"/>
 </segment>
 </net>
 <net name="PMS_RESET" class="0">
 <segment>
-<pinref part="IC4" gate="IC$1" pin="IO27"/>
+<pinref part="IC1" gate="IC$1" pin="IO27"/>
 <wire x1="152.4" y1="30.48" x2="147.32" y2="30.48" width="0.1524" layer="91"/>
 <label x="147.32" y="30.48" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
@@ -5092,15 +5174,15 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <net name="N$13" class="0">
 <segment>
 <wire x1="104.14" y1="147.32" x2="104.14" y2="139.7" width="0.1524" layer="91"/>
-<pinref part="LED5" gate="G$1" pin="C"/>
-<pinref part="R9" gate="G$1" pin="2"/>
+<pinref part="LED2" gate="G$1" pin="C"/>
+<pinref part="R1" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="N$2" class="0">
 <segment>
 <wire x1="93.98" y1="139.7" x2="93.98" y2="147.32" width="0.1524" layer="91"/>
-<pinref part="LED6" gate="G$1" pin="C"/>
-<pinref part="R8" gate="G$1" pin="2"/>
+<pinref part="LED3" gate="G$1" pin="C"/>
+<pinref part="R2" gate="G$1" pin="2"/>
 </segment>
 </net>
 <net name="TX_LED" class="0">
@@ -5109,7 +5191,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <wire x1="119.38" y1="114.3" x2="104.14" y2="114.3" width="0.1524" layer="91"/>
 <label x="106.68" y="114.3" size="1.778" layer="95"/>
 <wire x1="104.14" y1="114.3" x2="104.14" y2="129.54" width="0.1524" layer="91"/>
-<pinref part="R9" gate="G$1" pin="1"/>
+<pinref part="R1" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="RX_LED" class="0">
@@ -5118,13 +5200,13 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <wire x1="119.38" y1="111.76" x2="93.98" y2="111.76" width="0.1524" layer="91"/>
 <label x="106.68" y="111.76" size="1.778" layer="95"/>
 <wire x1="93.98" y1="129.54" x2="93.98" y2="111.76" width="0.1524" layer="91"/>
-<pinref part="R8" gate="G$1" pin="1"/>
+<pinref part="R2" gate="G$1" pin="1"/>
 </segment>
 </net>
 <net name="N$39" class="0">
 <segment>
-<pinref part="R2" gate="G$1" pin="1"/>
-<pinref part="R3" gate="G$1" pin="2"/>
+<pinref part="R14" gate="G$1" pin="1"/>
+<pinref part="R15" gate="G$1" pin="2"/>
 <wire x1="111.76" y1="144.78" x2="111.76" y2="147.32" width="0.1524" layer="91"/>
 <pinref part="IC2" gate="G$1" pin="VBUS"/>
 <wire x1="111.76" y1="147.32" x2="111.76" y2="149.86" width="0.1524" layer="91"/>
@@ -5146,9 +5228,9 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <junction x="63.5" y="144.78"/>
 </segment>
 </net>
-<net name="GPIO13" class="0">
+<net name="WS2812B" class="0">
 <segment>
-<pinref part="IC4" gate="IC$1" pin="IO13"/>
+<pinref part="IC1" gate="IC$1" pin="IO13"/>
 <wire x1="170.18" y1="17.78" x2="170.18" y2="12.7" width="0.1524" layer="91"/>
 <wire x1="170.18" y1="12.7" x2="172.72" y2="12.7" width="0.1524" layer="91"/>
 <label x="172.72" y="12.7" size="1.27" layer="95" xref="yes"/>
@@ -5156,23 +5238,9 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 </net>
 <net name="PMS_RX" class="0">
 <segment>
-<pinref part="IC4" gate="IC$1" pin="IO17"/>
+<pinref part="IC1" gate="IC$1" pin="IO17"/>
 <wire x1="205.74" y1="33.02" x2="210.82" y2="33.02" width="0.1524" layer="91"/>
 <label x="210.82" y="33.02" size="1.27" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="TFT_CIPO" class="0">
-<segment>
-<pinref part="IC4" gate="IC$1" pin="IO19"/>
-<wire x1="205.74" y1="40.64" x2="210.82" y2="40.64" width="0.1524" layer="91"/>
-<label x="210.82" y="40.64" size="1.27" layer="95" xref="yes"/>
-</segment>
-</net>
-<net name="TFT_CS" class="0">
-<segment>
-<pinref part="IC4" gate="IC$1" pin="IO26"/>
-<wire x1="152.4" y1="33.02" x2="147.32" y2="33.02" width="0.1524" layer="91"/>
-<label x="147.32" y="33.02" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
 </nets>
@@ -5208,7 +5276,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 </plain>
 <instances>
 <instance part="U$15" gate="G$1" x="198.12" y="147.32" smashed="yes"/>
-<instance part="IC1" gate="G$1" x="48.26" y="149.86" smashed="yes">
+<instance part="IC3" gate="G$1" x="48.26" y="149.86" smashed="yes">
 <attribute name="NAME" x="40.894" y="158.242" size="1.778" layer="95" font="vector"/>
 <attribute name="VALUE" x="40.64" y="139.7" size="1.778" layer="96" font="vector"/>
 </instance>
@@ -5226,11 +5294,11 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <attribute name="VALUE" x="137.16" y="142.24" size="1.778" layer="96" align="bottom-center"/>
 <attribute name="NAME" x="137.16" y="160.782" size="1.778" layer="95" align="bottom-center"/>
 </instance>
-<instance part="LED2" gate="G$1" x="73.66" y="99.06" smashed="yes"/>
+<instance part="LED4" gate="G$1" x="73.66" y="99.06" smashed="yes"/>
 <instance part="GND3" gate="1" x="119.38" y="81.28" smashed="yes" rot="MR0">
 <attribute name="VALUE" x="121.92" y="78.74" size="1.778" layer="96" rot="MR0"/>
 </instance>
-<instance part="LED4" gate="G$1" x="106.68" y="99.06" smashed="yes"/>
+<instance part="LED5" gate="G$1" x="106.68" y="99.06" smashed="yes"/>
 <instance part="U$2" gate="G$1" x="127" y="160.02" smashed="yes">
 <attribute name="VALUE" x="125.984" y="163.576" size="1.778" layer="96"/>
 </instance>
@@ -5253,7 +5321,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <attribute name="NAME" x="34.29" y="103.0986" size="1.778" layer="95"/>
 <attribute name="VALUE" x="34.29" y="100.838" size="1.778" layer="96"/>
 </instance>
-<instance part="R13" gate="G$1" x="53.34" y="101.6" smashed="yes" rot="R90">
+<instance part="R3" gate="G$1" x="53.34" y="101.6" smashed="yes" rot="R90">
 <attribute name="NAME" x="54.61" y="103.0986" size="1.778" layer="95"/>
 <attribute name="VALUE" x="54.61" y="100.838" size="1.778" layer="96"/>
 </instance>
@@ -5284,11 +5352,11 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <instance part="P+10" gate="G$1" x="223.52" y="160.02" smashed="yes">
 <attribute name="VALUE" x="222.504" y="163.576" size="1.778" layer="96"/>
 </instance>
-<instance part="R14" gate="G$1" x="71.12" y="157.48" smashed="yes" rot="R90">
+<instance part="R6" gate="G$1" x="71.12" y="157.48" smashed="yes" rot="R90">
 <attribute name="NAME" x="72.39" y="158.9786" size="1.778" layer="95"/>
 <attribute name="VALUE" x="72.39" y="156.718" size="1.778" layer="96"/>
 </instance>
-<instance part="R15" gate="G$1" x="78.74" y="157.48" smashed="yes" rot="R90">
+<instance part="R5" gate="G$1" x="78.74" y="157.48" smashed="yes" rot="R90">
 <attribute name="NAME" x="80.01" y="158.9786" size="1.778" layer="95"/>
 <attribute name="VALUE" x="80.01" y="156.718" size="1.778" layer="96"/>
 </instance>
@@ -5302,10 +5370,10 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <nets>
 <net name="GND" class="0">
 <segment>
-<pinref part="IC1" gate="G$1" pin="GND"/>
+<pinref part="IC3" gate="G$1" pin="GND"/>
 <wire x1="35.56" y1="144.78" x2="33.02" y2="144.78" width="0.1524" layer="91"/>
 <pinref part="GND5" gate="1" pin="GND"/>
-<pinref part="IC1" gate="G$1" pin="SDO"/>
+<pinref part="IC3" gate="G$1" pin="SDO"/>
 <wire x1="60.96" y1="144.78" x2="63.5" y2="144.78" width="0.1524" layer="91"/>
 <wire x1="20.32" y1="137.16" x2="33.02" y2="137.16" width="0.1524" layer="91"/>
 <wire x1="33.02" y1="137.16" x2="63.5" y2="137.16" width="0.1524" layer="91"/>
@@ -5318,12 +5386,12 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 </segment>
 <segment>
 <pinref part="GND3" gate="1" pin="GND"/>
-<pinref part="LED2" gate="G$1" pin="GND"/>
+<pinref part="LED4" gate="G$1" pin="GND"/>
 <wire x1="86.36" y1="83.82" x2="93.98" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="93.98" y1="83.82" x2="119.38" y2="83.82" width="0.1524" layer="91"/>
 <wire x1="83.82" y1="96.52" x2="86.36" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="86.36" y1="96.52" x2="86.36" y2="83.82" width="0.1524" layer="91"/>
-<pinref part="LED4" gate="G$1" pin="GND"/>
+<pinref part="LED5" gate="G$1" pin="GND"/>
 <wire x1="116.84" y1="96.52" x2="119.38" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="119.38" y1="96.52" x2="119.38" y2="83.82" width="0.1524" layer="91"/>
 <junction x="119.38" y="83.82"/>
@@ -5366,10 +5434,10 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 </net>
 <net name="SCL" class="0">
 <segment>
-<pinref part="IC1" gate="G$1" pin="SCK"/>
+<pinref part="IC3" gate="G$1" pin="SCK"/>
 <wire x1="60.96" y1="149.86" x2="71.12" y2="149.86" width="0.1524" layer="91"/>
 <label x="83.82" y="149.86" size="1.27" layer="95" xref="yes"/>
-<pinref part="R14" gate="G$1" pin="1"/>
+<pinref part="R6" gate="G$1" pin="1"/>
 <wire x1="71.12" y1="149.86" x2="83.82" y2="149.86" width="0.1524" layer="91"/>
 <wire x1="71.12" y1="152.4" x2="71.12" y2="149.86" width="0.1524" layer="91"/>
 <junction x="71.12" y="149.86"/>
@@ -5377,10 +5445,10 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 </net>
 <net name="SDA" class="0">
 <segment>
-<pinref part="IC1" gate="G$1" pin="SDI"/>
+<pinref part="IC3" gate="G$1" pin="SDI"/>
 <wire x1="60.96" y1="147.32" x2="78.74" y2="147.32" width="0.1524" layer="91"/>
 <label x="83.82" y="147.32" size="1.27" layer="95" xref="yes"/>
-<pinref part="R15" gate="G$1" pin="1"/>
+<pinref part="R5" gate="G$1" pin="1"/>
 <wire x1="78.74" y1="147.32" x2="83.82" y2="147.32" width="0.1524" layer="91"/>
 <wire x1="78.74" y1="152.4" x2="78.74" y2="147.32" width="0.1524" layer="91"/>
 <junction x="78.74" y="147.32"/>
@@ -5404,18 +5472,18 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <wire x1="223.52" y1="157.48" x2="223.52" y2="160.02" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="R14" gate="G$1" pin="2"/>
+<pinref part="R6" gate="G$1" pin="2"/>
 <wire x1="71.12" y1="162.56" x2="71.12" y2="165.1" width="0.1524" layer="91"/>
 <wire x1="71.12" y1="165.1" x2="78.74" y2="165.1" width="0.1524" layer="91"/>
-<pinref part="R15" gate="G$1" pin="2"/>
+<pinref part="R5" gate="G$1" pin="2"/>
 <wire x1="78.74" y1="165.1" x2="78.74" y2="162.56" width="0.1524" layer="91"/>
-<pinref part="IC1" gate="G$1" pin="VDDIO"/>
+<pinref part="IC3" gate="G$1" pin="VDDIO"/>
 <wire x1="60.96" y1="152.4" x2="63.5" y2="152.4" width="0.1524" layer="91"/>
-<pinref part="IC1" gate="G$1" pin="VDD"/>
+<pinref part="IC3" gate="G$1" pin="VDD"/>
 <wire x1="35.56" y1="154.94" x2="33.02" y2="154.94" width="0.1524" layer="91"/>
 <pinref part="P+4" gate="G$1" pin="3.3V"/>
 <wire x1="20.32" y1="154.94" x2="20.32" y2="165.1" width="0.1524" layer="91"/>
-<pinref part="IC1" gate="G$1" pin="CSB"/>
+<pinref part="IC3" gate="G$1" pin="CSB"/>
 <wire x1="35.56" y1="149.86" x2="33.02" y2="149.86" width="0.1524" layer="91"/>
 <junction x="20.32" y="165.1"/>
 <wire x1="63.5" y1="165.1" x2="33.02" y2="165.1" width="0.1524" layer="91"/>
@@ -5445,16 +5513,16 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <wire x1="147.32" y1="157.48" x2="147.32" y2="160.02" width="0.1524" layer="91"/>
 </segment>
 <segment>
-<pinref part="LED2" gate="G$1" pin="VDD"/>
+<pinref part="LED4" gate="G$1" pin="VDD"/>
 <wire x1="60.96" y1="109.22" x2="60.96" y2="101.6" width="0.1524" layer="91"/>
 <wire x1="60.96" y1="101.6" x2="63.5" y2="101.6" width="0.1524" layer="91"/>
 <wire x1="60.96" y1="109.22" x2="93.98" y2="109.22" width="0.1524" layer="91"/>
 <junction x="60.96" y="109.22"/>
-<pinref part="LED4" gate="G$1" pin="VDD"/>
+<pinref part="LED5" gate="G$1" pin="VDD"/>
 <wire x1="96.52" y1="101.6" x2="93.98" y2="101.6" width="0.1524" layer="91"/>
 <wire x1="93.98" y1="101.6" x2="93.98" y2="109.22" width="0.1524" layer="91"/>
 <wire x1="53.34" y1="106.68" x2="53.34" y2="109.22" width="0.1524" layer="91"/>
-<pinref part="R13" gate="G$1" pin="2"/>
+<pinref part="R3" gate="G$1" pin="2"/>
 <pinref part="U$7" gate="G$1" pin="5V"/>
 <wire x1="53.34" y1="109.22" x2="53.34" y2="111.76" width="0.1524" layer="91"/>
 <wire x1="60.96" y1="109.22" x2="53.34" y2="109.22" width="0.1524" layer="91"/>
@@ -5497,8 +5565,8 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 </net>
 <net name="N$12" class="0">
 <segment>
-<pinref part="LED4" gate="G$1" pin="DI"/>
-<pinref part="LED2" gate="G$1" pin="DO"/>
+<pinref part="LED5" gate="G$1" pin="DI"/>
+<pinref part="LED4" gate="G$1" pin="DO"/>
 <wire x1="83.82" y1="101.6" x2="88.9" y2="101.6" width="0.1524" layer="91"/>
 <wire x1="88.9" y1="101.6" x2="88.9" y2="96.52" width="0.1524" layer="91"/>
 <wire x1="96.52" y1="96.52" x2="88.9" y2="96.52" width="0.1524" layer="91"/>
@@ -5509,19 +5577,19 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <wire x1="48.26" y1="96.52" x2="53.34" y2="96.52" width="0.1524" layer="91"/>
 <junction x="53.34" y="96.52"/>
 <pinref part="Q2" gate="G$1" pin="D"/>
-<pinref part="R13" gate="G$1" pin="1"/>
-<pinref part="LED2" gate="G$1" pin="DI"/>
+<pinref part="R3" gate="G$1" pin="1"/>
+<pinref part="LED4" gate="G$1" pin="DI"/>
 <wire x1="53.34" y1="96.52" x2="63.5" y2="96.52" width="0.1524" layer="91"/>
 </segment>
 </net>
 <net name="TFT_SCLK" class="0">
 <segment>
-<pinref part="LCD" gate="G$1" pin="SCK"/>
+<pinref part="LCD" gate="G$1" pin="SCLK"/>
 <wire x1="198.12" y1="157.48" x2="193.04" y2="157.48" width="0.1524" layer="91"/>
 <label x="193.04" y="157.48" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
-<net name="GPIO2" class="0">
+<net name="TFT_DC" class="0">
 <segment>
 <pinref part="LCD" gate="G$1" pin="DC"/>
 <wire x1="198.12" y1="149.86" x2="193.04" y2="149.86" width="0.1524" layer="91"/>
@@ -5540,7 +5608,7 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <junction x="210.82" y="99.06"/>
 </segment>
 </net>
-<net name="GPIO13" class="0">
+<net name="WS2812B" class="0">
 <segment>
 <pinref part="Q2" gate="G$1" pin="S"/>
 <pinref part="R4" gate="G$1" pin="1"/>
@@ -5552,14 +5620,14 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 </net>
 <net name="TFT_COPI" class="0">
 <segment>
-<pinref part="LCD" gate="G$1" pin="SDA"/>
+<pinref part="LCD" gate="G$1" pin="COPI"/>
 <wire x1="198.12" y1="154.94" x2="193.04" y2="154.94" width="0.1524" layer="91"/>
 <label x="193.04" y="154.94" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
 </net>
-<net name="TFT_RESET" class="0">
+<net name="TFT_RST" class="0">
 <segment>
-<pinref part="LCD" gate="G$1" pin="RES"/>
+<pinref part="LCD" gate="G$1" pin="!RST"/>
 <wire x1="198.12" y1="152.4" x2="193.04" y2="152.4" width="0.1524" layer="91"/>
 <label x="193.04" y="152.4" size="1.27" layer="95" rot="R180" xref="yes"/>
 </segment>
@@ -5572,10 +5640,15 @@ Firmware: https://github.com/openairproject/sensor-esp32</text>
 <approved hash="104,2,60.96,152.4,IC1,VDDIO,3.3V,,,"/>
 <approved hash="104,2,63.5,101.6,LED2,VDD,5V,,,"/>
 <approved hash="104,2,96.52,101.6,LED4,VDD,5V,,,"/>
+<approved hash="104,1,25.4,149.86,J3,VBUS,VIN,,,"/>
+<approved hash="104,1,152.4,55.88,IC4,3V3,3.3V,,,"/>
+<approved hash="104,1,119.38,149.86,IC2,VDD,3.3V,,,"/>
+<approved hash="104,1,119.38,132.08,IC2,REGIN,3.3V,,,"/>
 <approved hash="202,1,154.94,121.92,IC2,CTS,,,,"/>
 <approved hash="202,1,154.94,137.16,IC2,DSR,,,,"/>
 <approved hash="202,1,154.94,142.24,IC2,DCD,,,,"/>
 <approved hash="202,1,119.38,127,IC2,RI,,,,"/>
+<approved hash="104,1,154.94,106.68,IC2,GND_PAD,GND,,,"/>
 <approved hash="202,1,154.94,114.3,IC2,NC,,,,"/>
 </errors>
 </schematic>
