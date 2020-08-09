@@ -23,6 +23,7 @@
   Inspired by https://github.com/SwapBap/WemosDustSensor/
 */
 #define VERSION "2.1"
+
 /*--------------------------- Configuration ------------------------------*/
 // Configuration should be done in the included file:
 #include "config.h"
@@ -252,6 +253,7 @@ void setup()
   if (initWifi()) {
     setColour(strip.Color(0, 0, 20));    // Set all to blue
     //OLED.println("Wifi [CONNECTED]");
+    //Serial.println(WiFi.localIP());
   } else {
     //OLED.println("Wifi [FAILED]");
   }
@@ -749,7 +751,11 @@ void reconnectMqtt() {
 
   // Loop until we're reconnected
   while (!client.connected()) {
-    //Serial.print("Attempting MQTT connection...");
+    Serial.print("Attempting MQTT connection to ");
+    Serial.print(mqtt_broker);
+    Serial.print(" as ");
+    Serial.print(mqtt_client_id);
+    Serial.print("... ");
     // Attempt to connect
     if (client.connect(mqtt_client_id)) {
       //Serial.println("connected");

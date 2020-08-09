@@ -36,6 +36,7 @@ Firmware
 The "Firmware" directory contains example firmware as an Arduino
 project.
 
+
 Enclosure
 ---------
 The "Enclosure" directory contains STLs for a case that can be
