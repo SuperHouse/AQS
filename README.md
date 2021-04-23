@@ -6,6 +6,12 @@ your home or office, with options for measuring airborne particulate
 matter, temperature, humidity, barometric pressure, and volatile
 organic compounds.
 
+This project is documented in an ongoing video series on SuperHouse:
+
+* [DIY Air Quality Sensor, part 1: “Basic” version](https://www.superhouse.tv/38-diy-air-quality-sensor-part-1-basic-model/)
+* [DIY Air Quality Sensor, part 2: “Display” version](https://www.superhouse.tv/39-diy-air-quality-sensor-part-2-display-version/)
+* [DIY Air Quality Sensor, part 3: source code walkthrough](https://www.superhouse.tv/40-diy-air-quality-sensor-part-3-software/)
+
 There are 3 different versions of this project:
 
  * The "Basic" version which requires only a Wemos D1 Mini and a
