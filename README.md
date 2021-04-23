@@ -1,17 +1,35 @@
-Air Quality Sensor Pro
-======================
+Air Quality Sensor
+==================
 
-Combines a PMS7003 particulate matter sensor with a BME680 temperature
-/ humidity / barometric pressure / VOC sensor, to measure a variety of
-potential airborne contaminants.
+Build a DIY Air Quality Sensor to monitor the condition of the air in
+your home or office, with options for measuring airborne particulate
+matter, temperature, humidity, barometric pressure, and volatile
+organic compounds.
 
-Includes a 240x240 LCD so that values can be displayed locally, and
-also supports MQTT over WiFi so that values can be reported to a home
+There are 3 different versions of this project:
+
+ * The "Basic" version which requires only a Wemos D1 Mini and a
+   Plantower PMS5003 laser particulate matter sensor.
+ * The "Display" version which adds a 128x32 OLED display to the
+   Basic version.
+ * The "Pro" version which is based on a fully custom PCB with an ESP32
+   MCU, a Plantower PMS7003 sensor, a Bosch BME680 environmental
+   sensor, and a 240x240 colour LCD.
+
+Measurements can be shown locally if a display is fitted, and can also
+be reported to MQTT over WiFi so that data can be accessed by a home
 automation system or external database.
 
 ![Air Quality Sensor PCB](Images/AQS-v1_0-oblique-render.jpg)
 
-Features:
+"Basic" and "Display" version features:
+
+ * PMS5003 particulate matter sensor
+ * ESP8266 processor with WiFi
+ * Micro-USB connection for power or reflashing
+ * 3D-printable case
+
+"Pro" version features:
 
  * PMS7003 particulate matter sensor
  * BME680 VOC sensor
@@ -27,8 +45,6 @@ More information is available at:
 Hardware
 --------
 The "Hardware" directory contains the PCB design as an EAGLE project.
-EAGLE PCB design software is available from Autodesk free for
-non-commercial use.
 
 
 Firmware
@@ -45,7 +61,7 @@ The "Enclosure" directory contains STLs for a case that can be
 The two halves of the case should be printed with the flat face down to
 the printer bed.
 
-The case can be held shut by 8mm M3 bolts.
+The case can be held shut by M3 bolts.
 
 
 Credits
@@ -55,7 +71,7 @@ Credits
 
 License
 -------
-Copyright 2020 SuperHouse Automation Pty Ltd  www.superhouse.tv  
+Copyright 2020-2021 SuperHouse Automation Pty Ltd  www.superhouse.tv  
 
 The hardware portion of this project is licensed under the TAPR Open
 Hardware License (www.tapr.org/OHL). The "license" folder within this
