@@ -270,10 +270,8 @@ void checkModeButton()
     if (g_display_state >= NUM_OF_STATES)
     {
       g_display_state = 1;
-      return;
     } else {
       g_display_state++;
-      return;
     }
   }
 
