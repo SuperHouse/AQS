@@ -33,7 +33,7 @@
 #include <Adafruit_SSD1306.h>         // For OLED
 #include <ESP8266WiFi.h>              // ESP8266 WiFi driver
 #include <PubSubClient.h>             // Required for MQTT
-#include "PMS.h"                      // Particulate Matter Sensor driver (embedded)
+#include "Pms5003.h"                  // Particulate Matter Sensor driver (embedded)
 
 /*--------------------------- Global Variables ---------------------------*/
 // Particulate matter sensor
@@ -119,11 +119,11 @@ void renderScreen();
 
 /*--------------------------- Instantiate Global Objects -----------------*/
 // Software serial port
-SoftwareSerial pmsSerial(PMS_RX_PIN, PMS_TX_PIN); // Rx pin = GPIO2 (D4 on Wemos D1 Mini)
+SoftwareSerial pmsSerial;
 
 // Particulate matter sensor
-PMS pms(pmsSerial);                      // Use the software serial port for the PMS
-PMS::DATA g_data;
+Pms5003 pms(pmsSerial);                  // Use the software serial port for the PMS
+Pms5003::PMSDATA_t g_data;
 
 // OLED
 Adafruit_SSD1306 OLED(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
@@ -143,11 +143,9 @@ void setup()
   Serial.print("Air Quality Sensor starting up, v");
   Serial.println(VERSION);
 
-  // Open a connection to the PMS and put it into passive mode
-  pmsSerial.begin(PMS_BAUD_RATE);   // Connection for PMS5003
-  pms.passiveMode();                // Tell PMS to stop sending data automatically
-  delay(100);
-  pms.wakeUp();                     // Tell PMS to wake up (turn on fan and laser)
+  // Open a connection to the PMS. Defaults to active mode.
+  pmsSerial.begin(Pms5003::BAUD_RATE, SWSERIAL_8N1, PMS_RX_PIN, PMS_TX_PIN, false, 192);
+  pms.set_sleep(false); // Ensure PMS sensor is awake
 
   // We need a unique device ID for our MQTT client connection
   g_device_id = ESP.getChipId();  // Get the unique ID of the ESP8266 chip
@@ -292,57 +290,87 @@ void updatePmsReadings()
         >= ((g_pms_report_period * 1000) - (g_pms_warmup_period * 1000)))
     {
       // It's time to wake up the sensor
-      //Serial.println("Waking up sensor");
-      pms.wakeUp();
+      Serial.println("Waking PMS sensor");
+      pms.set_sleep(false);
+
+      // Waking the sensor is functionally equivalent to booting the sensor.
+      // Plantower sensors always:
+      // 1) boot into 'active' mode
+      // 2) needtime to boot and any commands sent while it booting
+      //    are silently lost. You can either add a delay here or leave
+      //    the sensor in active mode and deal with it later.
+      //
+      // Note: The firmware on the Plantower sensors is very limited and 
+      //    you cannot query what mode the sensor is in or whether
+      //    it is awake or sleeping. The Pms5003 class tries to keep track 
+      //    of this.
       g_pms_state_start = time_now;
       g_pms_state = PMS_STATE_WAKING_UP;
     }
   }
 
-  // Check if we've been in the waking up state for long enough
+  // Check
+  // 1. Check if the sensor has booted from sleep and is ready 
+  //    to be set to passive mode
+  // 2. if we've been in the waking up state for long enough
   if (PMS_STATE_WAKING_UP == g_pms_state)
   {
+
+    // We can either wait ~2s after issuing a 'wakeup' or check for serial 
+    // data which indicates the sensor is awake and again in active mode.
+    if (pmsSerial.available() && pms.get_data_reporting_mode() != Pms5003::REPORT_PASSIVE)
+    {
+      Serial.print("Setting Pms5003::REPORT_PASSIVE mode... ");
+      if (!pms.set_data_reporting_mode(Pms5003::REPORT_PASSIVE))
+      {
+        Serial.println("failed!");
+      }
+      else
+      {
+        Serial.println("success");
+      }
+    }
+    
+    // Need to let the sensor equilibrate of it gives faulty data
     if (time_now - g_pms_state_start
         >= (g_pms_warmup_period * 1000))
-    {
-      g_pms_state_start = time_now;
-      g_pms_state = PMS_STATE_READY;
-    }
+      {
+        g_pms_state_start = time_now;
+        g_pms_state = PMS_STATE_READY;
+      }
+    
   }
 
   // Put the most recent values into globals for reference elsewhere
   if (PMS_STATE_READY == g_pms_state)
   {
-    //pms.requestRead();
-    if (pms.readUntil(g_data))  // Use a blocking road to make sure we get values
+    Serial.println("Making PMS observation"); 
+    if (pms.query_data(g_data))
     {
-      g_pm1p0_sp_value   = g_data.PM_SP_UG_1_0;
-      g_pm2p5_sp_value   = g_data.PM_SP_UG_2_5;
-      g_pm10p0_sp_value  = g_data.PM_SP_UG_10_0;
+      // SP data corrisponds to internal PMS sensor calibration against 'industrial' particles
+      g_pm1p0_sp_value   = g_data.pm10_std;
+      g_pm2p5_sp_value   = g_data.pm25_std;
+      g_pm10p0_sp_value  = g_data.pm100_std;
 
-      g_pm1p0_ae_value   = g_data.PM_AE_UG_1_0;
-      g_pm2p5_ae_value   = g_data.PM_AE_UG_2_5;
-      g_pm10p0_ae_value  = g_data.PM_AE_UG_10_0;
+      // AE data corrisponds to internal PMS sensor calibration against 'household' particles 
+      g_pm1p0_ae_value   = g_data.pm10_env;
+      g_pm2p5_ae_value   = g_data.pm25_env;
+      g_pm10p0_ae_value  = g_data.pm100_env;
 
       g_pms_ae_readings_taken = true;
 
-      // This condition below should NOT be required, but currently I get all
-      // 0 values for the PPD results every second time. This check only updates
-      // the global values if there is a non-zero result for any of the values:
-      if (g_data.PM_TOTALPARTICLES_0_3 + g_data.PM_TOTALPARTICLES_0_5
-          + g_data.PM_TOTALPARTICLES_1_0 + g_data.PM_TOTALPARTICLES_2_5
-          + g_data.PM_TOTALPARTICLES_5_0 + g_data.PM_TOTALPARTICLES_10_0
-          != 0)
-      {
-        g_pm0p3_ppd_value  = g_data.PM_TOTALPARTICLES_0_3;
-        g_pm0p5_ppd_value  = g_data.PM_TOTALPARTICLES_0_5;
-        g_pm1p0_ppd_value  = g_data.PM_TOTALPARTICLES_1_0;
-        g_pm2p5_ppd_value  = g_data.PM_TOTALPARTICLES_2_5;
-        g_pm5p0_ppd_value  = g_data.PM_TOTALPARTICLES_5_0;
-        g_pm10p0_ppd_value = g_data.PM_TOTALPARTICLES_10_0;
-        g_pms_ppd_readings_taken = true;
-      }
-      pms.sleep();
+      // size channels for accumulated particle number concentration
+      g_pm0p3_ppd_value  = g_data.prt_03um;
+      g_pm0p5_ppd_value  = g_data.prt_05um;
+      g_pm1p0_ppd_value  = g_data.prt_10um;
+      g_pm2p5_ppd_value  = g_data.prt_25um;
+      g_pm5p0_ppd_value  = g_data.prt_50um;
+      g_pm10p0_ppd_value = g_data.prt_100um;
+
+      g_pms_ppd_readings_taken = true;
+
+      pms.set_sleep(true);
+      Serial.println("Sleeping PMS sensor"); 
 
       // Calculate AQI values for the various reporting standards
       calculateUkAqi();
